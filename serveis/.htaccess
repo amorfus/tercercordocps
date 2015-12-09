@@ -1,0 +1,10 @@
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^castellersdelpoblesec\.cat$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.castellersdelpoblesec\.cat$
+RewriteRule ^calendari$ "https\:\/\/www\.google\.com\/calendar\/embed\?src\=up3542q82keh01ghio1e5hii58\@group\.calendar\.google\.com\&ctz\=Europe\/Madrid" [R=302,L]
+
+<IfModule mod_headers.c>
+   Header add Access-Control-Allow-Origin: *
+</IfModule>

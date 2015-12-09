@@ -1,0 +1,1474 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Tercer Cordo - Bandarres</title>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" href="css/waves.min.css" />
+        <link rel="stylesheet" href="css/animate.css" />
+        <link rel="stylesheet" href="css/flexboxgrid.min.css" />
+        <link rel="stylesheet" href="css/material-design-iconic-font.min.css" />
+        <link rel="stylesheet" href="css/nativedroid2.css" />
+        <link rel="stylesheet" href="css/troncs_mobil.css" />
+        <link rel="stylesheet" href="css/tercercordo.css" />
+        <link rel="stylesheet" href="css/troncs_1.css" />
+        <link rel="stylesheet" href="css/vertical_timeline.css" />
+        <script type="text/javascript" src="js/wow.min.js"></script>
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    </head>
+    <body>
+	   <div data-role="page" data-url="#inici" id='inici'>
+		<div data-role="panel" id="menu" data-display="overlay">
+			<ul data-role="listview">
+				<li data-role="list-divider">Menu</li>
+				<li data-icon="false"><a href="#" class="opcio_menu" data-rel="popup" onclick="javascript:carrega_calendari();return false;"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>Calendari</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','llista_diades');llista_diades();return false;"><i class="zmdi zmdi-calendar-note zmdi-hc-fw"></i>Diades</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:mostra_resultats();"><i class="zmdi zmdi-chart zmdi-hc-fw"></i>Resultats</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:mostra_guio(localStorage.getItem('data_avui'));"><i class="zmdi zmdi-file-text zmdi-hc-fw"></i>Gui&oacute;</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','troncs');carrega_full_troncs();"><i class="zmdi zmdi-view-column zmdi-hc-fw"></i>Full de Troncs</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:carrega_full_pinyes();"><i class="zmdi zmdi-local-parking zmdi-hc-fw"></i>Full de Pinyes</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','copdull');carrega_copdull('assaig');"><i class="zmdi zmdi-eye zmdi-hc-fw"></i>Cop d'Ull Assaig</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','copdull');carrega_copdull('diada');"><i class="zmdi zmdi-eye zmdi-hc-fw"></i>Cop d'Ull Diada</a></li>
+				<li class='barreta'><div data-role='navbar'><ul><li><a href='#menu_troncs' class='opcio_menu'><i class="zmdi zmdi-view-column"></i></a></li><li><a href='#menu_pinyes' class='opcio_menu'><i class="zmdi zmdi-local-parking"></i></a></li><li><a href='#menu_canalla' class='opcio_menu'><i class="zmdi zmdi-face"></i></a></li><li><a href='#menu_junta' class='opcio_menu'><i class="zmdi zmdi-seat"></i></a></li></ul></div></li>
+			</ul>
+		</div>
+		<div data-role="panel" id="menu_troncs" data-position='bottom' data-display="overlay">
+			<ul data-role="listview" data-icon="false">
+				<li data-role="list-divider" style="float:right;">Troncs</li>
+				<li data-icon="false"><a href="#" class="opcio_menu " onclick="javascript:localStorage.setItem('seccio_actual','troncs');carrega_full_troncs();"><i class='lIcon fa fa-star'></i>Full de Troncs</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','assistencia');mostra_assistencia_modif('troncs','',localStorage.getItem('data_avui'),'');"><i class='lIcon fa fa-check-square-o'></i>Assist&egrave;ncia</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','troncs_treball');mostra_troncs('assaig','0','0000-00-00');"><i class='lIcon fa fa-th'></i>Troncs Treball</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:gent_a_treballar();"><i class='lIcon fa fa-male'></i>Gent a Treballar</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:mostra_previsio_troncs();"><i class='lIcon fa fa-file-text'></i>Previsi&oacute;</a></li>
+				<li data-icon="false"><a href="#menu" class="opcio_menu" data-rel="back"><i class='lIcon fa fa-reply'></i>Menu</a></li>
+			</ul>
+		</div>
+		<div data-role="panel" id="menu_pinyes" data-position='bottom' data-display="overlay">
+			<ul data-role="listview">
+				<li data-role="list-divider" style="float:right;">Pinyes</li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:carrega_full_pinyes();"><i class='lIcon fa fa-star'></i>Full de Pinyes</a></li><li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','assistencia');mostra_assistencia_modif('pinyes','',localStorage.getItem('data_avui'),'');"><i class='lIcon fa fa-check-square-o'></i>Assist&egrave;ncia</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:carrega_gent_posicions();"><i class='lIcon fa fa-th'></i>Gent per Posicions</a></li>
+                <li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:getImage();"><i class='lIcon fa fa-file-text'></i>Pinyes Projector</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:mostra_guio();"><i class='lIcon fa fa-file-text'></i>Gui&oacute;</a></li>
+				<li data-icon="false"><a href="#menu" class="opcio_menu" data-rel="back"><i class='lIcon fa fa-reply'></i>Menu</a></li>
+			</ul>
+		</div>
+		<div data-role="panel" id="menu_canalla" data-position='bottom' data-display="overlay">
+			<ul data-role="listview">
+				<li data-role="list-divider" style="float:right;">Canalla</li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:localStorage.setItem('seccio_actual','assistencia');mostra_assistencia_modif('canalla','',localStorage.getItem('data_avui'),'');"><i class='lIcon fa fa-check-square-o'></i>Assist&egrave;ncia</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:omple_llista_cens('canalla');"><i class='lIcon fa fa-user'></i>Cens Canalla</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:omple_llista_cens('pares');"><i class='lIcon fa fa-users'></i>Pares/Mares</a></li>
+					<li data-icon="false"><a href="#menu" class="opcio_menu" data-rel="back"><i class='lIcon fa fa-reply'></i>Menu</a></li>
+			</ul>
+		</div>
+		<div data-role="panel" id="menu_junta" data-position='bottom' data-display="overlay">
+			<ul data-role="listview">
+				<li data-role="list-divider" style="float:right;">Junta</li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:omple_llista_cens('cens');"><i class='lIcon fa fa-inbox'></i>Cens</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:omple_llista_cens('canalla');"><i class='lIcon fa fa-user'></i>Cens Canalla</a></li>
+				<li data-icon="false"><a href="#" class="opcio_menu" onclick="javascript:omple_llista_cens('pares');"><i class='lIcon fa fa-users'></i>Pares/Mares</a></li>
+				<li data-icon="false"><a href="#menu" class="opcio_menu" data-rel="back"><i class='lIcon fa fa-reply'></i>Menu</a></li>
+			</ul>
+		</div>
+		<div data-role="header" data-position="fixed" id="cap_inici" class="wow fadeInDown" data-wow-delay="0.2s">
+			<div data-role='navbar'>
+				<a href="#menu" class="ui-btn ui-btn-inline"><i class="zmdi zmdi-menu zmdi-hc-2x"></i></a>
+				<div class='tercercordo-titol'>TERCER CORD&Oacute; </div><div id='titol_seccio_smaller' class='amagat wow animated bounceIn'></div>
+                <div id="titol_seccio" class="wow animated bounceInUp"></div> <div id="menu_seccio"></div>
+				<a href="#menu_inf" class="ui-btn ui-btn-right ui-btn-inline"><i class="zmdi zmdi-more-vert zmdi-hc-2x"></i></a>       
+			</div>
+		</div>
+		
+        	<!--<div class="img_cap"></div>-->
+		<div role="main" class="ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s" id="contingut_inici">
+					<div id="info_inici">
+						Benvingut/da
+						<img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+					    <img style="display:none;" id="largeImage" src="" />
+					</div>
+			<div id="marc_llista_diades"></div>
+		</div>
+		<div data-role="footer" data-position="fixed" id="peu_inici"  class='wow animated bounceInUp'>
+			<div data-role='navbar'><ul>
+				<!--<li><a href="#menu_rapid" class='icona-menu'><img src='./images/icona-menu.png' /></a></li>-->
+				<li><a href='#menu_troncs' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-view-column zmdi-hc-2x"></i></a></li>
+                <li><a href='#menu_pinyes' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-local-parking zmdi-hc-2x"></i></a></li>
+                <li><a href='#menu_canalla' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-face zmdi-hc-2x"></i></a></li>
+                <li><a href='#menu_junta' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-seat zmdi-hc-2x"></i></a></li>
+			</ul></div>
+           <!-- <div class='row around-xs'>
+				<div class='col-xs-auto'>
+					<a href='#menu_troncs' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-view-column zmdi-hc-2x"></i>Troncs</a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#menu_pinyes' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-local-parking zmdi-hc-2x"></i>Pinyes</a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#menu_canalla' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-face zmdi-hc-2x"></i>Canalla</a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#menu_junta' class="ui-bottom-sheet-link ui-btn ui-btn-inline" data-ajax='false'><i class="zmdi zmdi-seat zmdi-hc-2x"></i>Junta</a>
+				</div>
+			</div>-->
+		</div>
+		<div data-role="panel" id="menu_inf" class="ui-bottom-sheet" data-animate="true" data-position='bottom' data-display="overlay">
+			<div class='row around-xs'>
+				<div class='col-xs-auto'>
+					<a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-assignment zmdi-hc-2x'></i><strong>Clipboard</strong></a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-fire zmdi-hc-2x'></i><strong>Hot Stuff</strong></a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-cloud-outline-alt zmdi-hc-2x'></i><strong>Cloud</strong></a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-format-color-fill zmdi-hc-2x'></i><strong>Fillcolor</strong></a>
+				</div>
+			</div>
+		</div>
+		<div data-role="panel" id="menu_rapid" class="ui-bottom-sheet" data-animate="true" data-position='bottom' data-display="overlay">
+			<div class='row around-xs'>
+				<div class='col-xs-auto'>
+					<a href='#menu_troncs' class="ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button" data-ajax='false'><i class="zmdi zmdi-view-column zmdi-hc-2x"></i>Troncs</a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#menu_pinyes' class="ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button" data-ajax='false'><i class="zmdi zmdi-local-parking zmdi-hc-2x"></i>Pinyes</a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#menu_canalla' class="ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button" data-ajax='false'><i class="zmdi zmdi-face zmdi-hc-2x"></i>Canalla</a>
+				</div>
+				<div class='col-xs-auto'>
+					<a href='#menu_junta' class="ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button" data-ajax='false'><i class="zmdi zmdi-seat zmdi-hc-2x"></i>Junta</a>
+				</div>
+			</div>
+		</div>
+        <div data-role="panel" id="panell_auxiliar" data-position="right" data-display="overlay">
+			
+		</div>
+       <div data-role="panel" id="bottomsheetlist_auxiliar" class="ui-bottom-sheet ui-bottom-sheet-list" data-animate="false" data-position='bottom' data-display="overlay">
+	   </div> <!-- fi bottomsheet -->
+	</div> <!-- fi pagina inici -->
+	
+	<div data-role="page" id="pag_copdull">
+		<div role="main" class="ui-content" id="dades_copdull"></div>
+		
+	</div> <!-- fi pagina copdull -->
+	
+	<div data-role="page" id="pag_segona">
+        <div data-role="header" data-position="fixed" id="cap_inici" class="wow fadeInDown" data-wow-delay="0.2s">
+            <a href="#" data-rel="back" class="ui-btn ui-btn-left"><i class="zmdi zmdi-arrow-left"></i></a>
+            <ul data-role='nd2tabs' data-swipe='true'>
+                <li data-tab='cens' data-tab-active='true' class='nd2Tabs-nav-item waves-effect waves-button waves-light'>Cens</li>
+                <li data-tab='llistes_correu' class='nd2Tabs-nav-item waves-effect waves-button waves-light'>Llistes</li>
+            </ul>
+        </div>
+		<div role="main" id="dades_segona" class="ui-content" >
+            <div data-role='nd2tab' data-tab='cens' class='tab_llista_cens nd2Tabs-content-tab nd2Tab-active'></div>
+            <div data-role='nd2tab' data-tab='llistes_correu' class='tab_llistes_correu nd2Tabs-content-tab'></div>
+        </div>
+		<div data-role="footer" data-position="fixed" id="peu_segona"  class='wow animated bounceInUp'>
+        </div>
+	</div> <!-- fi pagina segona -->
+        
+    <div data-role="page"  id="pag_fotos">
+		<div role="main"  id="dades_fotos" class="ui-content" >    
+           <!-- <button onclick="capturePhotoWithData();">Capture Photo With Image Data</button> <br>
+            <button onclick="capturePhotoWithFile();">Capture Photo With Image File URI</button> <br>
+            <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+            <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+            <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+            <img style="display:none;" id="largeImage" src="" />-->
+            <button onclick="getImage();" class="ui-btn-raised clr-primary">Sel.leccionar Pinya</button>
+        </div>
+    </div>  <!-- fi pag fotos -->
+    
+    <script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="js/waves.min.js"></script>
+	<script type="text/javascript" src="js/nativedroid2.js"></script>
+	<script src="/nd2settings.js"></script>
+    
+    <!--<script type="text/javascript" src="js/datepicker-ca.js"></script>-->
+	<script type="text/javascript" charset="utf-8">
+		var dades_formulari = "";
+        var pictureSource;   // picture source
+        var destinationType; // sets the format of returned value
+		$(document).on('pageinit', '#inici', function(){
+			if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+				document.addEventListener("deviceready", startup, true);
+				/*alert("mobil");*/
+				/*checkConnection();*/
+			} else {
+                wow = new WOW();
+                wow.init();
+                startup(); //this is the browser
+			}
+		});
+		
+		$(document).on( "pagebeforechange" , function ( event, data ) {
+		    /*alert ("Pagebeforchange: " + data.toPage[0].id);*/
+		    var pagina_actual = data.toPage[0].id;
+		    /*var cont_pag = $('#' + pagina_actual + ' .ui-content').attr('id');*/ /*.html(data.options.dades_html);*/
+		   /* alert("pagebeforechange: pagina: " + pagina_actual);*/
+		    if ( pagina_actual == "pag_segona" || pagina_actual == "altes" || pagina_actual == "pag_modal") {
+		    	var cont_pag = $('#' + pagina_actual + ' .ui-content').attr('id'); /*.html(data.options.dades_html);*/
+		    	/*alert("pagebeforechange pag_segona: carrega dades a " + cont_pag);*/
+		        var dades_html = data.options.dades_html;
+		        var dades_pag = data.options.dades_pag;
+		        if (dades_pag == "llista_gent_troncs") 
+		        	$('#' + pagina_actual + ' .ui-header').html("<div class='posicio_clickada' style='display:none'>" + dades_html + "</div>").enhanceWithin();
+		        else
+		        	$('#' + pagina_actual + ' .ui-content').html(dades_html).enhanceWithin();
+				/*$('[data-role="main"]').html(dades_html).enhanceWithin();*/
+		        /*$(cont_pag).html(data.options.dades_html).enhanceWithin();*/
+		    }
+		});
+		
+        /* funcio cridada en el camp date del formulari d'afegir diada */
+		function handleDates(elm, options) {
+ 		       	event.stopPropagation();
+   			var currentField = $(elm);
+        		var opts = options || {};
+        		var minVal = opts.min || 0;
+        		var maxVal = opts.max || 0;
+
+        		var myNewDate = Date.parse(currentField.val()) || new Date();
+        		if(typeof myNewDate === "number") {
+            			myNewDate = new Date (myNewDate);
+        		}
+
+        		window.plugins.datePicker.show({
+            			date : myNewDate,
+            			mode : 'date',
+            			minDate: Date.parse(minVal),
+            			maxDate: Date.parse(maxVal)
+			}, function(returnDate) {
+            		if(returnDate !== "") {
+                		var newDate = new Date(returnDate);
+                		currentField.val(getFormattedDate(newDate));
+            		}
+            		currentField.blur();
+        		});
+    		}
+		
+		function startup() {
+			/* aqui crido la llista de diades del principi del programa */
+			llista_diades();
+            
+           /* pictureSource=navigator.camera.PictureSourceType;
+            destinationType=navigator.camera.DestinationType;*/
+			var dNow = new Date();
+			//convert month to 2 digits
+			var MonthActual = dNow.getMonth()+1;
+			var DiaActual = dNow.getDate();
+			var twoDigitMonth = (MonthActual > 9)? MonthActual : '0' + MonthActual;
+			var twoDigitDay = (DiaActual > 9)? DiaActual : '0' + DiaActual;
+			/*localStorage.setItem("data_avui", dNow.getFullYear() + '-' + twoDigitMonth + '-' + twoDigitDay);*/
+			localStorage.setItem("data_avui", dNow.getFullYear() + '-' + twoDigitMonth + '-' + twoDigitDay);
+
+			// Setting #container div as a jqm pageContainer
+    			/*$.mobile.pageContainer = $('#container');*/
+
+			// Setting default page transition to slide
+			$.mobile.defaultPageTransition = 'slide';
+			
+			document.addEventListener("menubutton", doMenu, false);
+			document.addEventListener("backbutton", function() {
+				if ( $('.ui-page-active').attr('id') == 'inici') {
+					exitAppPopup();
+				} else {
+					/*alert ($('.ui-page-active').attr('id'));*/
+				    history.back();           
+				}
+			}, false);
+			
+			window.addEventListener('scroll', function(e){
+                var distanceY = window.pageYOffset || document.documentElement.scrollTop,
+			         shrinkOn = 20,
+			         header = document.querySelector("cap_inici");
+                /*per aconseguir que els numeros de pis no tapin el titol a asssitencia de troncs*/
+                var $el = $('.pis_assist'); 
+                var isPositionFixed = ($el.css('position') == 'fixed');
+                if ($(this).scrollTop() > 200 && !isPositionFixed) { 
+                    $('.fixedElement').css({'position': 'fixed', 'top': '0px'}); 
+                }
+                if ($(this).scrollTop() < 200 && isPositionFixed) {
+                    $('.fixedElement').css({'position': 'static', 'top': '0px'}); 
+                } 
+                
+			        if (distanceY > shrinkOn) {
+			            jQuery("#cap_inici").addClass("smaller");
+			            jQuery(".menu_cap li").css("padding-top","20px");
+                        jQuery("#titol_seccio_smaller").html(jQuery("#titol_seccio").html());
+                        jQuery("#titol_seccio_smaller").removeClass("amagat");
+                        jQuery("#titol_seccio").addClass("smaller");
+                        jQuery("#menu_seccio").addClass("smaller");
+			        } else {
+			            if (jQuery("#cap_inici").hasClass("smaller")) {
+			                jQuery("#cap_inici").removeClass("smaller");
+			                jQuery(".menu_cap li").css("padding-top","0px");
+                            jQuery("#titol_seccio_smaller").addClass("amagat");
+                            jQuery("#titol_seccio").removeClass("smaller");
+                            jQuery("#menu_seccio").removeClass("smaller");
+			            }
+			        }
+			});
+		}
+		
+		function doMenu() {
+			$('#menu_rapid').slideToggle("fast");
+			/*$("div[data-role=navbar]").slideToggle(200);*/
+			/*$("div[data-role=navbar]").slideToggle("fast");*/
+		}
+		
+		$(document).on('click','.opcio_menu', function() {
+			var menu_actual = $(this).closest("[data-role='panel']").attr("id");
+			var seccio_actual = localStorage.getItem('seccio_actual');
+			
+			$( "#" + menu_actual ).panel("close");
+			/*mostra_menu_seccio(seccio_actual);*/
+			/*console.log(menu_actual);*/
+		});
+		
+		function exitAppPopup() {
+			navigator.notification.confirm(
+				'Vols sortir?', function(button) {
+					if (button == 2) {
+						navigator.app.exitApp();
+					}
+				}, 'Tercer Cordo', 'No,Si');
+			return false;
+		}
+		
+		function mostra_menu_seccio(seccio,texte) {
+			switch (seccio) {
+				case "troncs":  $('#titol_seccio').html("<i class='lIcon fa fa-th'></i> Troncs");
+								/*$("#menu_inf").html("<div data-role='navbar'><ul><li><a href='#' data-icon='file-text' onclick=\"javascript:carrega_calendari();return false;\"></a></li><li><a href='#' data-icon='th' onclick=\"javascript:carrega_calendari();return false;\"></a></li><li><a href='#' data-icon='group' onclick=\"javascript:carrega_calendari();return false;\"></a></li><li><a href='#' data-icon='calendar' onclick=\"javascript:carrega_calendari();return false;\"></a></li><li><a href='#' data-icon='sort-by-order' onclick=\"javascript:modifica_assistencia();return false;\"></a></li></ul></div>");
+								$('[data-role="footer"]').trigger('create');*/
+								break;
+				case "troncs_treball":  $('#titol_seccio').html("<i class='lIcon fa fa-th'></i> Troncs Treball");
+								break;
+				case "pinyes":  $('#titol_seccio').html("<i class='lIcon fa fa-asterisk'></i> Pinyes");
+								break;
+				case "assistencia":	$('#titol_seccio').html(texte);
+								/*$("#menu_seccio").html("<div data-role='navbar'><ul><li><a href='#' data-icon='calendar' onclick=\"javascript:carrega_calendari('modifica_assistencia', '" + var_grup + "','0000-00-00', mostra_assistencia_modif);return false;\">Data</a></li><li><a href='#' data-icon='refresh' onclick=\"javascript:modifica_assistencia('" + var_id_diada + "','" + var_data_assist + "');return false;\">Actualitzar</a></li></ul></div>");*/
+								$("#menu_seccio").html("");
+								break;
+				case "llista_diades":$('#titol_seccio').html('Diades');
+									$("#menu_seccio").html("");
+									break;
+				case "copdull":	$('#titol_seccio').html("Cop d'Ull");
+                                $("#menu_seccio").html("");
+								/*menu_inf_inicialitza();*/
+								break;
+				case "resultats":$("#titol_seccio").html("Resultats");
+								$("#menu_seccio").html("");
+								break;
+				case "gent_a_treballar": 	$("#titol_seccio").html("Troncs");
+											$("#menu_seccio").html("Gent a Treballar");
+											break;
+				case "assist_canalla": 		$("#titol_seccio").html("Canalla");
+											$("#menu_seccio").html("Assit&egrave;ncia");
+											break;
+				case "cens_canalla": 		$("#titol_seccio").html("Canalla");
+											$("#menu_seccio").html("Cens");
+											break;
+				default:		$('#titol_seccio').html("");
+								$("#menu_seccio").html("");
+								/*menu_inf_inicialitza();*/
+								break;
+			}
+			$('[data-role="navbar"]').trigger('create');
+		}
+        
+        
+        /*La funcio carrega_calendari seguent substitueix a carrega_calendari_vell ja que agafa els events del google calendar de la colla */
+		function carrega_calendari(motiu, grup, id_diada, callback) {
+			/*$pagina_activa = $( ":mobile-pagecontainer" ).pagecontainer("getActivePage")[0].id;
+			alert($pagina_activa);*/
+			alert(motiu);
+			panell_calendari = $.mobile.activePage.find('#panell_auxiliar');
+			/*$.mobile.activePage.find('#panell_auxiliar').panel();
+			$.mobile.activePage.find('#panell_auxiliar').panel("open");*/
+			/*$.mobile.activePage.find('#panell_auxiliar')*/
+
+			/*panell_calendari.panel();*/
+			panell_calendari.panel("open");
+			
+			/*if ($('#calendari_popup').html() == "") {*/
+				$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+				/*$('#calendari_popup')*/
+				/*$( ":mobile-pagecontainer" ).pagecontainer( "load", "#pag_modal" );
+				$('#dades_modal')*/
+				panell_calendari.fullCalendar({
+					//events: 'https://www.google.com/calendar/feeds/up3542q82keh01ghio1e5hii58%40group.calendar.google.com/public/basic',
+					googleCalendarApiKey: 'AIzaSyBdRbF4E6uae28-UeTsbacxPFBvZjjw4_I',
+			        events: {
+			            googleCalendarId: 'up3542q82keh01ghio1e5hii58@group.calendar.google.com'
+			        },
+					buttonText: {
+					    today: 'Avui',
+					    day: 'dia',
+					    week:'7mana',
+					    month:'mes'
+					},
+					firstDay:1,
+					monthNames: ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'],
+					dayNames: ['Diumenge', 'Dilluns', 'Dimarts', 'Dimecres','Dijous', 'Divendres', 'Dissabte'],
+					dayNamesShort: ['Diu', 'Dll', 'Dim', 'Dmc', 'Dij', 'Div', 'Dis'],
+					
+					eventAfterAllRender: function(){
+						$.mobile.loading('hide');
+						panell_calendari.enhanceWithin();
+						/*$( ":mobile-pagecontainer" ).pagecontainer( "change", "#pag_modal", { changeHash: 'false', showLoadMsg: 'true', transition: "flow" } );*/
+				       /* $('#calendari_popup').popup('open').enhanceWithin().popup("reposition", {positionTo: 'window'});*/
+				    },
+
+					dayClick: function(date, allDay, jsEvent, view) {
+						window.history.back();
+						/*if (allDay) {*/
+							$data_triada = jQuery.fullCalendar.formatDate( date , 'yyyy-MM-dd' );
+							/*$('#calendari_popup').popup("close");*/
+							/*$data_mostrar = jQuery.fullCalendar.formatDate( date , 'dd-MM-yyyy' );*/
+							alert('Dia clicat ' + $data_triada);
+							if (motiu == "diades") {
+								$data_diada = jQuery.fullCalendar.formatDate( date , 'yyyy-MM-dd' );
+								$data_mostrar = jQuery.fullCalendar.formatDate( date , 'dd-MM-yyyy' );
+								callback($data_diada,$data_mostrar); /* pant_afegir_diada */
+							}
+							else {
+								callback(grup, id_diada, $data_triada);	
+							}
+						/*} 
+						else {*/
+						    /*alert('Franja clicada: ' + date);*/
+						/*} */
+						
+						return false;
+						
+					},
+					
+					 eventClick: function( calEvent, jsEvent, view ) {
+					 	window.history.back();
+						$data_triada = jQuery.fullCalendar.formatDate( calEvent.start , 'yyyy-MM-dd' );
+						/*calEvent.preventDefault(); no funciona */
+						var txt = 'Event: ' + calEvent.title + '<br>' +
+						    'Event Start: ' + calEvent.start + '<br>' +
+						    'Event End: ' + calEvent.end + '<br>' +
+						    'Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY + '<br>' +
+						    'View: ' + view.name;
+						    var txt_event = calEvent.title;
+						txt_event = txt_event.substr(0,6);
+						
+						// per prevenir que no vagi a googlecalendar quan fem click
+						if (calEvent.url) {    
+						    return false;
+						}
+
+						if (motiu == "troncs_treball") {
+							alert(calEvent.tipus);
+							/*callback(calEvent.tipus,)*/
+						}
+						/*$('#calendari_popup').popup("close");*/
+						callback(grup, id_diada, $data_triada);
+						return false;
+					 }
+				});
+			/*}
+			else {
+				$('#calendari_popup').popup('open');
+			}*/
+
+			/*$.mobile.activePage.find('#panell_auxiliar').fullCalendar( 'addEventSource',        
+				function(start, end, callback) {
+				    // Creem events d'assaig de dimarts i divendres
+				    var events = [];
+
+				    for (loop = start.getTime();
+					 loop <= end.getTime();
+					 loop = loop + (24 * 60 * 60 * 1000)) {
+
+					var test_date = new Date(loop);
+					var test_dia = test_date.getDate();
+					var test_mes = test_date.getMonth();
+					var test_any = test_date.getFullYear();
+					test_mes++;
+					if (test_mes < 10) test_mes= '0' + test_mes;
+					if (test_dia < 10) test_dia= '0' + test_dia;
+					
+					if (test_date.getDay()==2) {
+					    // si és dimarts creem event assaig de dimarts (weekday = 2)
+					    events.push({
+						title: 'Assaig Dimarts',
+						start: test_date,
+						url: '',
+						tipus: 'assaig'
+					    });
+					}
+
+					if (test_date.getDay()==5) {
+					    // si és divendres creem event assaig de divendres (weekday=5)
+					    events.push({
+						title: 'Assaig Divendres',
+						start: test_date,
+						url: '',
+						tipus: 'assaig'
+					    });
+					}
+				    } // for loop
+
+				    // return events generated
+				    callback( events );
+				}
+			);*/
+
+			/*}
+			else
+			{
+				$.mobile.activePage.find('#panell_auxiliar').panel("close");	
+			}*/
+		}
+
+		function llista_diades(tipus) {
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			mostra_menu_seccio("llista_diades");
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/llista_diades.php',
+				data: 'tipus='+tipus,
+				success: function(data) { 
+					$("#contingut_inici").html("<div id='marc_llista_diades'></div>");
+					$("#marc_llista_diades").html(data); /*.trigger('create');*/
+					/*var offset = $('#marc_llista_diades').find('#propera_diada').offset().top;*/
+					
+					/*var myScroll_llista_diades = new IScroll('#marc_llista_diades');
+					myScroll_llista_diades.scrollToElement("#propera_diada");*/
+					//now scroll to the element
+					/*$.mobile.silentScroll(offset);*/
+					/*$("marc_llista_diades").animate({ "scrollTop" : offset }, 500);
+					$(".navbar").removeClass("scrolled");*/
+					$.mobile.loading('hide');
+					menu_inf_canvia("diades");
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error: ' + data); }
+			});
+			
+		}
+		
+		function mostra_torrada(missatge,boto,accio) {
+			new $.nd2Toast({ // The 'new' keyword is important, otherwise you would overwrite the current toast instance
+   				message : missatge, // Required
+   				action : { // Optional (Defines the action button on the right)
+     						title : boto, // Title of the action button
+     						link : accio, // optional (either link or fn or both must be set to define an action)
+						fn : function() { // function that will be triggered when action clicked
+        						console.log("Action Button clicked'");
+     						},
+						color : "red" // optional color of the button (default: 'lime')
+   				},
+				ttl : 8000 // optional, time-to-live in ms (default: 3000)
+ 			});
+		}
+		
+		function afegeix_diada() {
+			var datastring = "accio=nova&" + $("#afegir_diada").serialize();
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/gestio_diades.php',
+				data: datastring,
+				success: function(data) {
+					mostra_torrada(data,'OK','#');
+					llista_diades();
+					/*jQuery('#contingut_inici').html(data);*/
+					},
+				error: function(data) { jQuery('#detalls_actuacio').html(data); }
+			});
+		}
+		function pant_afegir_diada(data_diada,data_mostrar) {
+			/*alert("afegir diada " + data_diada + " | " + data_mostrar + " | ");*/
+			/*$( ":mobile-pagecontainer" ).pagecontainer( "load", "pag_altes.html", { showLoadMsg: 'false' } );*/
+			$cad_html = "<div class='inset'><form name='afegir_diada' id='afegir_diada'><fieldset>";
+            $cad_html += "<button type='submit' value='Afegir' id='submit' class='ui-btn-raised ui-btn-inline clr-primary' onclick=\"javascript: afegeix_diada();return false;\"><i class='zmdi zmdi-check zmdi-hc-2x'></i></button>";
+			$cad_html += "<br><strong>Data: </strong><input type='date' name='data_diada' id='data_diada' value=''></input>";  /*" + data_mostrar + "*/
+			$cad_html += "<br><label for 'hora'>Hora: </label><input type='text' name='hora_diada' id='hora_diada' value='12:00:00' maxlength=8 size=5></input>";
+			$cad_html += "<br><label for 'motiu'>Motiu: </label><input type='text' name='motiu' id='motiu' value='' maxlength=50></input>";
+			$cad_html += "<br><label for 'lloc'>Lloc: </label><input type='text' name='lloc' id='lloc' value='' maxlength=50></input>";
+			$cad_html += "<br><label for 'colles'>Colles: </label><input type='text' name='colles' id='colles' value='' maxlength=100></input>";
+			$cad_html +="</fieldset></form></div>";
+			
+			/*$( ":mobile-pagecontainer" ).pagecontainer( "change", "pag_altes.html", { dades_html: $cad_html, changeHash: 'false', showLoadMsg: 'true', transition: "slide" } );*/
+			
+			$("#inici #contingut_inici").html($cad_html).enhanceWithin();
+			
+			/*$("#dades_altes").html($cad_html).enhanceWithin();*/
+			/*jQuery('#dades_altes').html($cad_html);*/
+		}
+		
+		function menu_inf_inicialitza() {
+			/*$("#menu_inf").html("<div data-role='navbar'><ul><li><div id='icona-menu'><a href='#menu' class='icona-menu'><img src='./images/icona-menu.png' /></a></div></li><li><a href='#menu_troncs'><i class='lIcon fa fa-th'></i></a></li><li><a href='#menu_pinyes'><i class='lIcon fa fa-asterisk'></i></a></li><li><a href='#menu_canalla'><i class='lIcon fa fa-female'></i></a></li></ul></div>");*/
+			/*$("#menu_inf")*/
+			$('[data-role="footer"]').html("<div data-role='navbar'><ul><li><div id='icona-menu'><a href='#menu' class='icona-menu'><img src='./images/icona-menu.png' /></a></div></li><li><a href='#menu_troncs' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button'><i class='zmdi zmdi-view-column zmdi-hc-2x'></i>Troncs</a></li><li><a href='#menu_pinyes' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button'><i class='zmdi zmdi-local-parking zmdi-hc-2x'></i>Pinyes</a></li><li><a href='#menu_canalla' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button'><i class='zmdi zmdi-face zmdi-hc-2x'></i>Canalla</a></li></ul></div>");	
+			$('[data-role="footer"]').trigger('create');
+			/*$("#menu_overlay").html("").css("display","none");*/
+
+			/*<li><a href='#' data-icon='cloud' id='boto_cloudx' onclick=\"javascript:var cloud_boto=$(this).children();cloud_boto.children().next().toggleClass('ui-icon-cloud ui-icon-folder-open');\"></a></li>*/
+	
+			/* aquesta opcio es quan canviavem la paraula online per local, ara no mostrem texte per fer que les icones del navbar queden mes abaix */
+			/*<!--<li><a href='#' data-icon='cloud' id='boto_cloudx' onclick=\"javascript:var cloud_boto=$(this).children();cloud_boto.children().next().toggleClass('ui-icon-cloud ui-icon-folder-open');var texte_actual = cloud_boto.children().html();$('#boto_cloudx .ui-btn-text').html((texte_actual == 'On-line' ? 'Local' : 'On-line'));\"></a></li>*/
+		}
+		
+		function menu_inf_canvia(var_menu_inf,dades_menu) {
+			switch (var_menu_inf) {
+				case "diades": 	$("#menu_inf").html("<div class='row around-xs'><div class='col-xs-auto'><a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false' onclick=\"javascript:pant_afegir_diada();/*carrega_calendari('diades', '','0000-00-00', pant_afegir_diada);*/return false;\"><i class='zmdi zmdi-calendar zmdi-hc-2x'></i>Afegir Diada</a></div></div>");
+								break;
+				case "afegir_diada": $("#menu_inf").html("<div data-role='navbar'><ul><li><a href='#' onclick=\"javascript:afegeix_diada('"+data_diada+"');return false;\"><i class='zmdi zmdi-plus-circle zmdi-hc-fw'></i>Afegir</a></li></ul></div>");
+								break;
+				case "castells": 	$('[data-role="footer"]').html("<div data-role='navbar'><ul><li><a href='#' onclick=\"javascript:$('panell_auxiliar').panel('open');return false;\"><i class='lIcon fa fa-plus'></i>Afegir Castell</a></li></ul></div>");
+								break;
+				case "cens": 		$("#menu_inf").load("/menu_inf/menu_inf_cens.html");
+								break;
+				case "gent_a_treballar" : 	$("#menu_inf").html("<div class='row around-xs'><div class='col-xs-auto'><a href='#' onclick=\"javascript:$.mobile.activePage.find('.estat_A').toggleClass('amagat');return false;\" class='ui-bottom-sheet-link ui-btn ui-btn-inline'>A</a></div><div class='col-xs-auto'><a href='#' onclick=\"javascript:$.mobile.activePage.find('.estat_MA').toggleClass('amagat');return false;\" class='ui-bottom-sheet-link ui-btn ui-btn-inline'>MA</a></div><div class='col-xs-auto'><a href='#' onclick=\"javascript:$.mobile.activePage.find('.estat_O').toggleClass('amagat');return false;\" class='ui-bottom-sheet-link ui-btn ui-btn-inline'>O</a></div><div class='col-xs-auto'><a href='#' onclick=\"javascript:$.mobile.activePage.find('.troncs_1').toggleClass('amagat');return false;\" class='ui-bottom-sheet-link ui-btn ui-btn-inline'><i class='zmdi zmdi-star-outline zmdi-hc-2x'></i></a></div><div class='col-xs-auto'><a href='#' onclick=\"javascript:$.mobile.activePage.find('.troncs_0').toggleClass('amagat');return false;\" class='ui-bottom-sheet-link ui-btn ui-btn-inline'><i class='zmdi zmdi-star zmdi-hc-2x'></i></a></div></div>");
+											break;
+				case "inici" :  	$('[data-role="footer"]').html("<div data-role='navbar'><ul><li><div id='icona-menu'><a href='#menu' class='icona-menu'><img src='./images/icona-menu.png' /></a></div></li></ul></div>");
+								break;
+				case "troncs_treball": $("#menu_inf").html("<div class='row around-xs'><div class='col-xs-auto'><a href='#' onclick=\"javascript:carrega_llista_troncs_treball();/*carrega_calendari('troncs_treball', 'troncs','0000-00-00', mostra_troncs);*/\"><i class='zmdi zmdi-calendar zmdi-2x'></i></a></div><div class='col-xs-auto'><a href='#' onclick=\"javascript:modifica_troncs_treball();return false;\"><i class='zmdi zmdi-cloud-upload zmdi-2x'></i></a></div></div>");
+								break;
+				default: 		$('[data-role="footer"]').html("<div data-role='navbar'><ul><li><div id='icona-menu'><a href='#menu' class='icona-menu'><img src='./images/icona-menu.png' /></a></div></li></ul></div>");		
+								/*menu_inf_inicialitza();*/
+								break;
+			}
+			/*$('[data-role="navbar"]').trigger('create');
+			$('[data-role="footer"]').trigger('create');*/
+		}
+		
+		function mostra_resultats(id_diada) {
+			if (!id_diada)  { id_diada = "0000-00-00" };
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/resultats_diada.php',
+				data: 'diada_id='+id_diada,
+				success: function(data) {
+					$pagina_activa = $( ":mobile-pagecontainer" ).pagecontainer("getActivePage");
+					/*$( ":mobile-pagecontainer" ).pagecontainer( "load", "pag_resultats.html", { showLoadMsg: 'false' } );*/
+					$( ":mobile-pagecontainer" ).pagecontainer( "change", "#pag_segona", { dades_html: data, changeHash: 'false', showLoadMsg: 'true', transition: "slide" } );
+					/*alert(data);
+					$("#resultats").html(data).enhanceWithin();
+					$("#resultats").css("background","#cc0");
+					$("#resultats #dades_resultats").css("background","#cc0");
+					$pagina_activa = $( ":mobile-pagecontainer" ).pagecontainer("getActivePage");
+					alert("Despres change: " + $pagina_activa);
+					
+					alert('ui-page-active: ' + $('.ui-page-active').attr('id'));*/
+					
+					/*jQuery("#dades_resultats").html(data);*/
+					/*jQuery("#dades_resultats").html(data);*/ /* trigger("create")*/
+					$.mobile.loading('hide');
+					},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+		
+		function modifica_resultats(){
+			var datastring = "accio=actualitza&" + $("#resultats_diada_form").serialize();
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/resultats_diada.php',
+				data: datastring,
+				success: function(data) {
+					$.mobile.loading('hide'); 
+					alert(data);
+					},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+		
+		function carrega_copdull(tipus,id_data) {
+			/*if (!id_diada)  { id_diada = "0000-00-00" };*/
+            mostra_menu_seccio("copdull");
+			var_id_data=id_data;
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/copdull.php',
+				data: 'tipus='+tipus+'&id_data='+var_id_data,
+				success: function(data) {
+					jQuery("#contingut_inici").html(data).trigger("create");
+					$id_diada_assaig = $("#id_diada_assaig").html();
+					$motiu_diada_assaig = $("#motiu_diada_assaig").html();
+					$("#titol_seccio").html($motiu_diada_assaig);
+					$("#menu_seccio").html("");
+					/*if ($('#manca_guio').length > 0) { 
+					    mostra_troncs_guio(tipus,id_diada);
+					}*/
+					/* si he vingut pel menu principal no tinc id_diada, l'agafo de la ultima diada */
+					if (typeof(var_id_data) == "undefined") 
+						{
+							var_id_data = $("#id_diada_assaig").html();
+							/*var_data_assaig = $("#id_diada_assaig").html();*/
+						}
+					jQuery.ajax({
+						type: 'POST',
+						url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/mostra_troncs.php',
+						data: 'tipus='+tipus+'&id_data='+var_id_data,
+						success: function(data) {
+							$.mobile.activePage.find('#llista_castells').html(data);
+							/* per mostrar els castells que tirem */
+							$.mobile.activePage.find('.que_tirem').html($(data).filter('.que_tirem').text());
+						},
+						error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+					});
+					$.mobile.loading('hide');
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+        
+         /** GESTIO DE GUIONS **/
+			function afegir_prova_guio(var_data, var_prova, var_tipus)
+				{
+					// Only one todo per 5 seconds is allowed:
+					//if((new Date()).getTime() - timestamp<5000) return false;
+				
+					/*jQuery.get("ajax.php",{'action':'new','text':'New Todo Item. Doubleclick to Edit.','rand':Math.random()},function(msg){
+
+						// Appending the new todo and fading it into view:
+						jQuery(msg).hide().appendTo('.todoList').fadeIn();
+					});*/
+					jQuery.ajax({  
+					  type: "GET",  
+					  url: "./ajax.php",  
+					  data:  'action=new&prova='+var_prova+'&data='+var_data+'&tipus=' + var_tipus + '&rand=' + Math.random(), 
+					  error: function(data) {
+						alert('Error: ' + data);
+						},
+					  success: function(data) {
+							jQuery(data).hide().appendTo('.todoList').fadeIn();
+						} 
+					}); 
+
+					// Updating the timestamp:
+					//timestamp = (new Date()).getTime();					
+				}
+        
+        function mostra_guio(data_guio) {
+			/*data_assaig = '2014-02-28';*/
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/mostra_guio.php',
+				data: 'data_assaig='+data_guio,
+				success: function(data) {
+				    /*$.mobile.changePage('#dades_resultats', {transition: "fade", reverse: false, changeHash: false});
+					jQuery("#dades_resultats").html(data);*/
+                    $("#contingut_inici").html(data).enhanceWithin();
+					mostra_menu_seccio('guio',$("#contingut_inici #titol_pagina").html());
+                    
+                    jQuery.ajax({
+                        type: 'POST',
+                        url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/bottomsheet_proves.php',
+                        data: 'data='+data_guio,
+                        success: function(data) {
+                            $("#menu_inf").html(data).enhanceWithin();
+                        }
+                    });
+					$( "#sortable" ).sortable();
+					$( "#sortable" ).disableSelection();
+					<!-- Refresh list to the end of sort to have a correct display -->
+					$( "#sortable" ).bind( "sortstop", function(event, ui) {
+						$('#sortable').listview().listview('refresh');
+					});
+					$.mobile.loading('hide');
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+		
+        function copia_guio_desde(data_desde,data_oncopiar,copiar_troncs) {
+			/*var data_desde    = jQuery('#selector_assaig_copiar').attr('value');*/
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/copia_guio_desde.php',
+				data: 'data_desde='+data_desde+'&data_oncopiar='+data_oncopiar+'&copiar_troncs='+copiar_troncs,
+				success: function(data) { 
+					alert(data);
+					carrega_copdull('assaig');
+				},
+				error: function(data) {alert(data); }
+			});
+		}
+		
+		function mostra_guio_popup(data_assaig_sel,var_popup) {
+			/*var data_assaig = data_assaig_sel.options[data_assaig_sel.selectedIndex].value;*/
+			var data_assaig = data_assaig_sel;
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/mostra_guio.php',
+				data: 'data_assaig='+data_assaig + '&popup=' + var_popup,
+				success: function(data) {
+					/*setTimeout(function () {*/
+						/*$("#dades_modal"),html(data);*/
+						/*$( ":mobile-pagecontainer" ).pagecontainer( "change", "#pag_modal", { dades_pag: 'Guio', dades_html: data, changeHash: 'false', showLoadMsg: 'true', transition: 'popup' } );*/
+                        $('#bottomsheet_auxiliar').html(data);
+						// close button
+						    /*var closeBtn = $('<a href="#" data-rel="back" data-role="button" class="ui-btn-right icona-tancar"><i class="zmdi zmdi-close"></i></a>').button();*/
+
+						    // Popup body - set width is optional - append button and Ajax msg
+						    var popup = $("<div/>", {"data-role": "popup"}).css({"width": $(window).width() / 1.5 + "px"}).append(data);
+
+						    // Append it to active page
+						   /* $(".ui-page-active").append(popup);*/
+
+						    // Create it and add listener to delete it once it's closed
+						    // open it
+						    /*$("[data-role=popup]").on("popupafterclose", function () {$(this).remove();
+						    }).on("popupafteropen", function () {
+							$(this).popup("reposition", {
+							    "positionTo": "window"
+							    //x: 150,
+							    //y: 200
+							});
+						    }).popup().popup("open");*/
+						
+						/*jQuery("#panell_auxiliar").html(data).trigger('create');
+						jQuery("#panell_auxiliar").panel("open");*/
+						/*$cadena = "";
+						jQuery.each(data, 
+							function(i, item)
+							{ 
+								$cadena+= item.prova + " " + item.text;
+							}
+						);
+						navigator.notification.confirm(
+							$cadena, function(button) {
+								if (button == 2) {
+									alert("copiat");
+								}
+							}, 'Tercer Cordo', 'No,Si');*/
+					/*}, 1000);*/
+					
+					 /*$.mobile.changePage('#guio', ['data-rel=dialog'], {transition: "fade", reverse: false, changeHash: false});
+					jQuery("#dades_guio").html(data);*/
+					/*$( "#sortable" ).sortable();
+					$( "#sortable" ).disableSelection();
+					<!-- Refresh list to the end of sort to have a correct display -->
+					$( "#sortable" ).bind( "sortstop", function(event, ui) {
+						$('#sortable').listview().listview('refresh');
+					});*/
+					$.mobile.loading('hide');
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+        
+        function canvia_posicio_tronc_clickada(var_id,var_foto,var_altura) {
+			/*alert(posicio_clickada);*/
+			/*$.mobile.activePage.find(posicio_clickada).css('background','url( '+var_foto+' ) no-repeat center center;width:55px;height:'+var_altura+'px;');*/
+			/*var_ht = $('#inici').find('#'+posicio_clickada).html();*/
+			var_foto = "url('"+var_foto+"') no-repeat center center";
+			altura = Math.round(var_altura * 0.5);
+			$('#inici').find('#'+posicio_clickada).css({'background':var_foto, 'height':altura+'px'});
+		}
+
+		function intercanvia_posicions_tronc(tronc_id,posicio_de,posicio_a,tronc) {
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/omple_tronc.php',
+				data: 'accio=swap&tronc_id='+tronc_id + '&pos1=' + posicio_de + '&pos2=' + posicio_a,
+				success: function(data) { $.mobile.loading('hide');
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+			mostra_tronc_sortable(tronc_id,tronc);
+		}
+        
+        function mostra_previsio_troncs() {
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/previsio_mensual_reunio.php',
+				data: '',
+				beforeSend: function() {
+                    // This callback function will trigger before data is sent
+                    $.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+                },
+                complete: function() {
+                    // This callback function will trigger on data sent/received complete
+                    $.mobile.loading('hide'); // This will hide AJAX spinner
+                },
+				success: function(data) {
+					/*$( ":mobile-pagecontainer" ).pagecontainer( "change", "#pag_segona", { dades_html: data, changeHash: 'false', showLoadMsg: 'true', transition: "slide" } );*/
+                    jQuery("#contingut_inici").html(data).trigger('create');
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+        
+		function carrega_full_troncs() {
+			/*if (!id_diada)  { id_diada = "0000-00-00" };*/
+			localStorage.setItem('seccio_actual','troncs');
+			/*menu_inf_inicialitza();*/
+			
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/full_troncs.php',
+				data: '',
+				beforeSend: function() {
+                    // This callback function will trigger before data is sent
+                    $.mobile.loading('show', {text: "Carregant...",textonly: false,textVisible: false});
+                },
+                complete: function() {
+                    // This callback function will trigger on data sent/received complete
+                    $.mobile.loading('hide'); // This will hide AJAX spinner
+                },
+				success: function(data) {
+					
+					/*$.mobile.changePage( "#full_troncs", { transition: "slide"});*/
+					jQuery("#contingut_inici").html(data).trigger('create');
+					jQuery('[data-role=collapsible-set]').collapsibleset().trigger('create');
+					/* reajusto la llista de troncs de treball per posar d'autodivider el nom del tronc */
+					/*$(".troncs_treball").listview({
+						autodividers:true,
+						autodividersSelector: function ( li ) {*/
+							// "li" is the list item, you can get the text via li.text()
+							// and then you return whatever you want - in text that is
+							/*return li.text().substring(0,1).toUpperCase();*/
+						/*	return li.find("a").text();
+						}
+					}).listview("refresh");*/
+
+					/*jQuery.ajax({
+						type: 'POST',
+						url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/mostra_troncs.php',
+						data: 'tipus=assaig&id_diada=0&data_assaig=0000-00-00',
+						success: function(data) {
+							$('#pag_segona' + ' .ui-content').html(data).enhanceWithin();
+							boto_tronc="<div class='checkout'><a class='checkout__button' href='#'><span class='checkout__text'><span class='checkout__text-inner checkout__initial-text'><i class='lIcon fa fa-group'></i></span><span class='checkout__text-inner checkout__final-text'><i class='lIcon fa fa-times'></i></i></span></span></a><div class='checkout__order'><div class='checkout__order-inner'><table class='checkout__summary'></table><!-- /checkout__summary --><button class='checkout__close checkout__cancel'><i class='lIcon fa fa-times'></i>Tancar</button></div><!-- /checkout__order-inner --></div><!-- /checkout__order --></div><!-- /checkout -->";
+							$('#pag_segona' + ' #menu_inf2').append(boto_tronc).enhanceWithin();
+							$(document).on('click', '.checkout', function(ev) {
+								ev.preventDefault();
+								$('.checkout').toggleClass('checkout--active');
+							} );
+							$(document).on('click', '.checkout__cancel', function() {
+								$('.checkout').toggleClass('checkout--active');
+							} );*/
+
+							/*jQuery('.bandarra_tronc > li').click(function(){
+								posicio_clickada = jQuery(this).attr("id");
+								 jQuery(this).css('background' , 'lightblue');
+								var_clase = jQuery(this).attr("class");
+								$.mobile.activePage.find('#menu_gent_troncs').panel("open");  
+							});*/
+							
+							/*$.mobile.loading('hide');
+						},
+						error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+					});*/
+
+					/* BONA aqui ens carrega la llista de gent de tronc, més endavant hauria de carregar només la gent que té assistència prevista en aquell assaig o diada */
+					jQuery.ajax({
+						type: 'POST',
+						url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/carrega_llista_gent_tronc.php',
+						data: '',
+						success: function(data) {
+								$('#panell_auxiliar').html(data).enhanceWithin();
+							},
+						error: function(data) { alert('Error de programa: ' + data); }
+					});
+
+					$(document).on('click','.bandarra_tronc > li', function(e) {
+						/*alert('aaa');*/
+						posicio_clickada = $(this).attr("id");
+						e.preventDefault();
+						/*$('.checkout').toggleClass('checkout--active');*/
+						jQuery(this).css('background' , '#FFA512');
+						/*$( ":mobile-pagecontainer" ).pagecontainer( "change", "#pag_segona", { dades_pag: 'llista_gent_troncs', dades_html: posicio_clickada, changeHash: 'false', showLoadMsg: 'true', transition: 'slide' } );*/
+                        jQuery("#panell_auxiliar").panel("open");
+						var_clase = jQuery(this).attr("class");
+					});
+
+					/*$('#taula_assistencia_mensual').fixedHeaderTable({ footer: true, cloneHeadToFoot: true, altClass: 'odd', autoShow: false });*/
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+		
+		function mostra_assistencia_modif(var_grup,var_id_diada,var_data,var_tipus) {
+			if (!var_id_diada || var_id_diada == "")  { var_id_diada = "0000-00-00"; var_tipus = "a"; }
+			else var_tipus="d";
+			if (typeof var_data == 'undefined') { var_data=''; }
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/assistencia.php',
+				data: 'id_diada='+var_id_diada+'&grup='+var_grup+'&data='+var_data+'&tipus='+var_tipus,
+				success: function(data) {
+					/*$( ":mobile-pagecontainer" ).pagecontainer( "change", "#pag_segona", { dades_html: data, changeHash: 'false', showLoadMsg: 'true', transition: "slide" } );*/
+					$("#contingut_inici").html(data).enhanceWithin();
+                    /*if (var_grup == 'pinyes') $('[data-role="header"]').append($('#tabs_posicions').html()).enhanceWithin();
+                    $('#inici').trigger('create');
+                    $('#tabs_pos').tabs();*/
+					mostra_menu_seccio('assistencia',$("#contingut_inici #titol_pagina").html());
+					menu_inf_assistencia(var_grup,var_id_diada,var_data,var_tipus);
+					$.datepicker.setDefaults({
+                      showOn: "both",
+                      changeMonth: true,
+                      dateFormat: "yy-mm-dd",
+                      dayNamesMin: [ "Dg", "Dl", "Dm", "Dx", "Dj", "Dv", "Ds" ],
+                      firstDay: 1
+                    });
+					$('input:checkbox').change(function(){
+                        $(this).parent().parent().removeClass().addClass('zoomOut zoomIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',function(){
+                            $(this).removeClass().addClass('wow animated bounceIn');
+                        });
+                        if (!$(this).is(":checked")) {
+                            $(this).parent().parent().addClass("no_seleccionada");
+                        } else {
+                            $(this).parent().parent().removeClass("no_seleccionada");
+                        }
+					});
+                    
+					
+				
+					   /* var head = $( ".ui-page-active [data-role='header']" ),
+						foot = $( ".ui-page-active [data-role='footer']" ),
+						headerheight = head.outerHeight();
+					    $.mobile.window.on( "throttledresize", function() {
+						$( "#sorter" ).height( $.mobile.window.height() - headerheight - 20 ).css( "top", headerheight + 18 );
+					    });
+					    $( "#sorter" ).height( $.mobile.window.height() - headerheight - 20 ).css( "top", headerheight + 18 );
+					    $.mobile.window.scroll( function( e ) {
+						var headTop = $(window).scrollTop();
+						if( headTop < headerheight && headTop > 0 ) {
+						    $( "#sorter" ).css({
+							"top": headerheight + 15 - headTop,
+							"height": $.mobile.window.height() - headerheight - 20
+						    });
+						} else if ( headTop >= headerheight && headTop > 0 && parseInt( headTop + $.mobile.window.height( )) < parseInt( foot.offset().top ) ) {
+						    $( "#sorter" ).css({
+							"top": "15px",
+							"height": $.mobile.window.height()
+						    });
+						    $("#sorter li").height( "3.7%" );
+						} else if ( parseInt( headTop + $.mobile.window.height() ) >= parseInt( foot.offset().top ) && parseInt( headTop + $.mobile.window.height() ) <= parseInt( foot.offset().top ) + foot.height() ) {
+						    $( "#sorter" ).css({
+							"top": "15px",
+							"height": $.mobile.window.height() - ( parseInt( headTop + $.mobile.window.height() ) - parseInt( foot.offset().top ) + 8 )
+						    });
+						} else if( parseInt( headTop + $.mobile.window.height() ) >= parseInt( foot.offset().top ) ) {
+						    $( "#sorter" ).css({
+							"top": "15px"
+						    });
+						} else {
+						    $( "#sorter" ).css( "top", headerheight + 15 );
+						}
+					    });
+					    $( "#sorter li" ).click( function() {
+						var top,
+						    letter = $( this ).text(),
+						    divider = $( "#sortedList" ).find( "li.ui-li-divider:contains(" + letter + ")" );
+						if ( divider.length > 0 ) {
+						    top = divider.offset().top;
+						    $.mobile.silentScroll( top );
+						} else {
+						    return false;
+						}
+					    });
+					    $( "#sorter li" ).hover(function() {
+						$( this ).addClass( "ui-btn-up-c" ).removeClass( "ui-btn-up-b" );
+					    }, function() {
+						$( this ).removeClass( "ui-btn-up-c" ).addClass( "ui-btn-up-b" );
+					    });*/
+				
+					$.mobile.loading('hide');
+					},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+		
+		function modifica_assistencia(var_id_esdeveniment,var_data,var_tipus) {
+			if (!var_id_esdeveniment)  { var_id_esdeveniment = "0000-00-00"; }
+			if (typeof var_data == 'undefined') { var_data=''; }
+			var_tipus = var_tipus;
+			/*var datastring = "accio=actualitza&id_esdeveniment=" + var_id_esdeveniment + "&tipus=" + var_tipus + "&data=" + var_data + "&" + $("#assistencia_modificable_form").serialize();*/
+			/* Com que serialize() ignora els checkboxes no seleccionats, els afegeixo: */
+		    /*datastring = datastring.concat(
+		            jQuery('#assistencia_modificable_form input[type=checkbox]:not(:checked)').map(
+		                    function() {
+		                        return {"id": this.id, "value": "off"}
+		                    }).get()
+		    );*/
+			var checkboxes = document.getElementsByClassName('assist_chk');
+			var valors = "";
+			for (var i=0, n=checkboxes.length;i<n;i++) {
+			  if (checkboxes[i].checked) 
+			  	valors += "&"+checkboxes[i].id+"=on";
+			  else
+			  	valors += "&"+checkboxes[i].id+"=off";
+			}
+			var datastring = "accio=actualitza&id_esdeveniment=" + var_id_esdeveniment + "&tipus=" + var_tipus + "&data=" + var_data + valors;
+            /*alert(datastring);*/
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/assistencia.php',
+				data: datastring,
+				success: function(data) {
+					$.mobile.loading('hide');
+					/*alert("Actualitzat." + data);*/
+					},
+				error: function(data) { $.mobile.loading('hide');alert('Error de programa: ' + data); }
+			});
+		}
+		
+		function menu_inf_assistencia(var_grup,var_id_diada,var_data_assist,var_tipus) {
+			/*$("#menu_inf").html("<div data-role='navbar'><ul><li><a href='#' onclick=\"javascript:var length = $('select#selector_diada_assistencia> option').length;jQuery('select#selector_diada_assistencia').attr('size',length);\" data-icon='calendar'>Diada</a></li><li><a href='#' data-icon='refresh'>Actualitzar</a></li><li><a href='#' data-icon='calendar'>Assaig</a></li></ul></div>");*/
+			/*$('[data-role="footer"]')*/
+			/*$("#menu_inf").html("<div class='row around-xs'><div class='col-xs-auto'><a href='#panell_auxiliar' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false' onclick=\"javascript:carrega_calendari('modifica_assistencia', '" + var_grup + "','0000-00-00', mostra_assistencia_modif);return false;\"><i class='zmdi zmdi-calendar zmdi-hc-2x'></i></a></div><div class='col-xs-auto'><a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false' onclick=\"javascript:jQuery('.no_seleccionada').toggleClass('amagat');return false;\"><i class='zmdi zmdi-mood zmdi-hc-2x'></i></a></div><div class='col-xs-auto'><a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false' onclick=\"javascript:modifica_assistencia('" + var_id_diada + "','" + var_data_assist + "','" + var_tipus + "');return false;\"><i class='zmdi zmdi-cloud-upload zmdi-hc-2x'></i></a></div></div>");*/
+            $("#menu_inf").html("<div data-role='navbar'><ul><li><a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false' onclick='javascript:$(\"#calendari_assistencia\").datepicker({dateFormat: \"yy-mm-dd\",onSelect: function(selected,evnt) { mostra_assistencia_modif(\"" + var_grup + "\",\"\",selected,\"\");}});'><i class='zmdi zmdi-calendar zmdi-hc-2x'></i></a></li><li><a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false' onclick=\"javascript:jQuery('.no_seleccionada').toggleClass('amagat');return false;\"><i class='zmdi zmdi-mood zmdi-hc-2x'></i></a></li><li><a href='#' class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button' data-ajax='false' onclick=\"javascript:modifica_assistencia('" + var_id_diada + "','" + var_data_assist + "','" + var_tipus + "');return false;\"><i class='zmdi zmdi-cloud-upload zmdi-hc-2x'></i></a></li></ul></div>");
+			$("#menu_inf").trigger('create');
+		}
+		
+		function gent_a_treballar() {
+			$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+			jQuery.ajax({
+				type: 'POST',
+				url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/omple_llista_cens.php',
+				data: 'llista=gent_a_treballar_troncs',
+				success: function(data) { 
+					mostra_menu_seccio("gent_a_treballar");
+					menu_inf_canvia("gent_a_treballar");
+					$("#contingut_inici").html(data).trigger('create');
+					$.mobile.loading('hide');
+
+					$( document ).on( "swipeleft", ".llista_cens li.troncs_1", function( event ) {
+				        var listitem = $( this ),
+				            // These are the classnames used for the CSS transition
+				            dir = event.type === "swipeleft" ? "left" : "right",
+				            // Check if the browser supports the transform (3D) CSS transition
+				            transition = $.support.cssTransform3d ? dir : false;
+				            confirmaicanvia( listitem, transition , '1', '0');
+				    });
+
+				    $( document ).on( "swiperight", ".llista_cens li.troncs_0", function( event ) {
+				        var listitem = $( this ),
+				            // These are the classnames used for the CSS transition
+				            dir = event.type === "swipeleft" ? "left" : "right",
+				            // Check if the browser supports the transform (3D) CSS transition
+				            transition = $.support.cssTransform3d ? dir : false;
+				            confirmaicanvia( listitem, transition , '0', '1');
+				    });
+                    
+				    // If it's not a touch device...
+				    if ( ! $.mobile.support.touch ) {
+				        // Remove the class that is used to hide the delete button on touch devices
+				        $( "#cens_gent_a_treballar_troncs").removeClass( "touch" );
+				        // Click delete split-button to remove list item
+				        $( ".delete" ).on( "click", function() {
+				            var listitem = $( this ).parent( "li" );
+				           /* confirmAndDelete( listitem );*/
+				        });
+				    }
+                    
+				    function confirmaicanvia( listitem, transition, treuclass, posaclass ) {
+				        listitem.find('.nom_pinya').addClass( transition );
+				        bandarra_id = listitem.find('.nom_pinya').attr("bandarra_id");
+				        nom_pinya = listitem.find( ".topic" ).html();
+				        if (transition == 'left') txt_pregunta = "Deixar de treballar a ";
+				        else txt_pregunta = "Treballar a troncs a ";
+				        listitem.find('.pregunta').html("<div id='confirm' class='ui-content'><div id='botons_pregunta'><div class='ui-block-a'><a id='yes' class='ui-btn ui-corner-all ui-mini ui-btn-a'>Si</a></div><div class='ui-block-b'><a id='cancel' class='ui-btn ui-corner-all ui-mini ui-btn-a'>No</a></div></div><div id='question'>" + txt_pregunta + " " + nom_pinya + "?</div></div>");
+
+				        // Inject topic in confirmation popup after removing any previous injected topics
+				        $( "#confirm .topic" ).remove();
+				        /*listitem.find( ".topic" ).clone().insertAfter( "#question" );*/
+				        // Show the confirmation popup
+				        /*$( "#confirm" ).popup().popup( "open" );*/
+				        // Proceed when the user confirms
+				        $( "#confirm #yes" ).on( "click", function() {
+				        	/*listitem.addClass( "borrat" );*/
+				        	listitem.removeClass('troncs_' + treuclass);
+				        	listitem.addClass('troncs_' + posaclass);
+				        	actualitza_dades_cens(bandarra_id,'troncs',posaclass);
+				        	listitem.find('.pregunta').html("");
+				        	listitem.find('.nom_pinya').removeClass(transition);
+				        	//listitem.remove();
+				            // Remove with a transition
+				            if ( transition ) {
+				                listitem
+				                    // Add the class for the transition direction
+				                    //.addClass( transition )
+				                    // When the transition is done...
+				                    .on( "webkitTransitionEnd transitionend otransitionend", function() {
+				                        // ...the list item will be removed
+				                        /*listitem.remove();*/
+				                        
+				                        // ...the list will be refreshed and the temporary class for border styling removed
+				                        /*$( "#cens_gent_a_treballar_troncs").listview( "refresh" ).find( ".border-bottom" ).removeClass( "border-bottom" );*/
+				                    })
+				                    // During the transition the previous button gets bottom border
+				                    .prev( "li" ).children( "a" ).addClass( "border-bottom" )
+				                    // Remove the highlight
+				                    .end().end().children( ".ui-btn" ).removeClass( "ui-btn-active" );
+				            }
+				            // If it's not a touch device or the CSS transition isn't supported just remove the list item and refresh the list
+				            else {
+				                listitem.remove();
+				                $( "#cens_gent_a_treballar_troncs").listview( "refresh" );
+				            }
+				        });
+				        // Remove active state and unbind when the cancel button is clicked
+				        $( "#confirm #cancel" ).on( "click", function() {
+				            listitem.removeClass( "ui-btn-active" );
+				            $( "#confirm #yes" ).off();
+				            listitem.find('.pregunta').html("");
+				            listitem.find('.nom_pinya').removeClass( transition );
+				        });
+				    } /* fi gestio swipe en llista gent a treballar */
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error: ' + data); }
+			});
+
+			/*$("#menu_overlay").html("<div data-role='navbar'><ul id='nav'><li><a href='javascript:void(0);'><i class='lIcon fa fa-icon-camera'></i></a></li><li><a href='javascript:void(0);'><i class='lIcon fa fa-icon-user'></i></a></li><li><a href='javascript:void(0);'><i class='lIcon fa fa-icon-map-marker'></i></a></li><li><a href='javascript:void(0);'>O</a></li><li><a href='javascript:void(0);'>A</a></li><li><a href='javascript:void(0);'><i class='lIcon fa fa-icon-moon'></i></a></li></ul></di>").css("display","block");*/
+			
+            $.mobile.document.on( "click", "#sorter li", function() {
+                var top,
+                    letter = $( this ).text(),
+                    divider = $( "#sortedList" ).find( "li.ui-li-divider:contains(" + letter + ")" );
+                if ( divider.length > 0 ) {
+                    top = divider.offset().top;
+                    $.mobile.silentScroll( top );
+                } else {
+                    return false;
+                }
+            });
+            $( "#sorter li" ).hover(function() {
+                $( this ).addClass( "ui-btn" ).removeClass( "ui-li-static" );
+            }, function() {
+                $( this ).removeClass( "ui-btn" ).addClass( "ui-li-static" );
+            });
+		}
+		
+		function comprova_llistes_correus(accio,llista,email) {
+            $("#bottomsheetlist_auxiliar").html("Comprovant llistes...");
+            $.ajax({
+                type: 'POST',
+                url : 'http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/llistes_correu.php',
+                data: 'accio='+accio+'&llista='+llista+'&email='+email,
+                success: function(data) { 
+                    /*$("#panell_auxiliar").html(data).panel("open");*/
+                    $("#bottomsheetlist_auxiliar").html(data);
+                },
+                error: function(data) { alert('Error: ' + data); }
+            });
+        }
+        
+        //aquesta funcio omple la llista de cens	
+		function omple_llista_cens(cens) {
+			$.mobile.loading('show', {text: "Carregant...",textonly: false,textVisible: false});
+			if (cens == "pares") {
+				var var_url = "http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/omple_llista_cens_pares.php";
+			}
+			else {
+				var var_url = "http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/omple_llista_cens.php";
+			}
+			jQuery.ajax({
+				type: 'POST',
+				url : var_url,
+				data: 'llista='+cens,
+				success: function(data) { 
+					/*setTimeout(function () {*/
+						/*$.mobile.changePage('#pag_segona', { changeHash: true});*/
+						$('#contingut_inici').html(data).trigger('create');
+					/*}, 1000);*/
+					$.mobile.loading('hide');
+					mostra_menu_seccio("cens_"+ cens);
+					menu_inf_canvia(cens);
+
+					jQuery("#contingut_inici").append("<div id='confirm' class='ui-content' data-role='popup'><p id='question'>Segur que vols eliminar?</p><div class='ui-grid-a'><div class='ui-block-a'><a id='yes' class='ui-btn ui-corner-all ui-mini ui-btn-a' data-rel='back'>Si</a></div><div class='ui-block-b'><a id='cancel' class='ui-btn ui-corner-all ui-mini ui-btn-a' data-rel='back'>No</a></div></div></div>");
+
+					$( document ).on( "swipeleft", ".llista_cens li.nom_pinya .llista_cens li.dades_camps", function( event ) {
+				        var listitem = $( this ),
+				            // These are the classnames used for the CSS transition
+				            dir = event.type === "swipeleft" ? "left" : "right",
+				            // Check if the browser supports the transform (3D) CSS transition
+				            transition = $.support.cssTransform3d ? dir : false;
+				            alert("swipe");
+				            confirmAndDelete( listitem, transition );
+				    });
+				    // If it's not a touch device...
+				    if ( ! $.mobile.support.touch ) {
+				        // Remove the class that is used to hide the delete button on touch devices
+				        $( "#cens_" + cens ).removeClass( "touch" );
+				        // Click delete split-button to remove list item
+				        $( ".delete" ).on( "click", function() {
+				            var listitem = $( this ).parent( "li" );
+				           /* confirmAndDelete( listitem );*/
+				        });
+				    }
+				    function confirmAndDelete( listitem, transition ) {
+				        // Highlight the list item that will be removed
+				        /*listitem.children( ".ui-btn" ).addClass( "ui-btn-active" );*/
+				        listitem.addClass( transition );
+				        /*var bandarra_id = listitem.attr("bandarra_id");*/
+				        
+				        // Inject topic in confirmation popup after removing any previous injected topics
+				        $( "#confirm .topic" ).remove();
+				        listitem.find( ".topic" ).clone().insertAfter( "#question" );
+				        // Show the confirmation popup
+				        $( "#confirm" ).popup().popup( "open" );
+				        // Proceed when the user confirms
+				        $( "#confirm #yes" ).on( "click", function() {
+				        	listitem.addClass( "borrat" );
+				        	//listitem.remove();
+				            // Remove with a transition
+				            if ( transition ) {
+				                listitem
+				                    // Add the class for the transition direction
+				                    //.addClass( transition )
+				                    // When the transition is done...
+				                    .on( "webkitTransitionEnd transitionend otransitionend", function() {
+				                        // ...the list item will be removed
+				                        listitem.remove();
+				                        // ...the list will be refreshed and the temporary class for border styling removed
+				                        $( "#cens_" + cens).listview( "refresh" ).find( ".border-bottom" ).removeClass( "border-bottom" );
+				                    })
+				                    // During the transition the previous button gets bottom border
+				                    .prev( "li" ).children( "a" ).addClass( "border-bottom" )
+				                    // Remove the highlight
+				                    .end().end().children( ".ui-btn" ).removeClass( "ui-btn-active" );
+				            }
+				            // If it's not a touch device or the CSS transition isn't supported just remove the list item and refresh the list
+				            else {
+				                listitem.remove();
+				                $( "#cens_" + cens ).listview( "refresh" );
+				            }
+				        });
+				        // Remove active state and unbind when the cancel button is clicked
+				        $( "#confirm #cancel" ).on( "click", function() {
+				            listitem.removeClass( "ui-btn-active" );
+				            $( "#confirm #yes" ).off();
+				            listitem.removeClass( transition );
+				        });
+				    }
+                    
+                    $('ul.llista_cens div.nom_pinya').on('taphold', function(){
+                        $(this).find('.mes_dades').toggleClass('amagat');
+                    });
+
+				},
+				error: function(data) { $.mobile.loading('hide');alert('Error: ' + data); }
+			 });
+		  }
+        
+        /* s'ha de modificar aquesta funcio encara esta com a autoritzat.php */
+		function actualitza_dades_cens(id,camp,valor) {
+			if (camp == "borrar" ) {
+				jQuery('<div></div>').appendTo('body')
+				  .html('<div><h6>Esborrar Casteller/Castellera?</h6></div>')
+				  .dialog({
+				      modal: true, title: 'Esborrar', zIndex: 10000, autoOpen: true,
+				      width: 'auto', resizable: false,
+				      buttons: {
+					  Yes: function () {
+					  	  $.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+					      jQuery.ajax({  
+						  type: "POST",  
+						  url: "http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/actualitza_dades_cens.php",  
+						  data:  'id=' + id + '&camp='+ camp + '&valor=' + valor, 
+						  error: function(data) {
+							$.mobile.loading('hide');
+							alert('Error: ' + data);
+							},
+						  success: function(data) {
+								jQuery.pnotify({
+								    pnotify_title: 'MODIFICAT',
+								    pnotify_text: nom_pinya,
+								    pnotify_animation: {effect_in: 'fade', effect_out: 'fade'} 
+								});
+								omple_llista_cens('cens');
+								$.mobile.loading('hide');
+							} 
+						});
+					      jQuery(this).dialog("close");
+					      
+					  },
+					  No: function () {
+					      jQuery(this).dialog("close");
+					  }
+				      },
+				      close: function (event, ui) {
+					  jQuery(this).remove();
+				      }
+				});
+			}
+			else {
+				$.mobile.loading('show', {theme: "b",text: "Carregant...",textonly: false,textVisible: false});
+				jQuery.ajax({  
+				  type: "POST",  
+				  url: "http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/actualitza_dades_cens.php",  
+				  data:  'id=' + id + '&camp='+ camp + '&valor=' + valor, 
+				  error: function(data) {
+					$.mobile.loading('hide');
+					alert('Error: ' + data);
+					},
+				  success: function(data) {
+				  		$.mobile.loading('hide');
+					} 
+				});
+			}
+		}
+        
+        function getImage() {
+            // Retrieve image file location from specified source
+            navigator.camera.getPicture(uploadPhoto, function(message) {
+			alert('Error en sel.leccionar la pinya');
+            },{
+                quality: 50, 
+                destinationType: navigator.camera.DestinationType.FILE_URI,
+                sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+            });
+        }
+ 
+        function uploadPhoto(imageURI) {
+            var options = new FileUploadOptions();
+            options.fileKey="file";
+            options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+            options.mimeType="image/jpeg";
+ 
+            var params = new Object();
+            params.value1 = "test";
+            params.value2 = "param";
+ 
+            options.params = params;
+            options.chunkedMode = false;
+ 
+            var ft = new FileTransfer();
+            ft.upload(imageURI, "http://www.castellersdelpoblesec.cat/prog_pinyes/app/serveis/puja_imatge_pinya.php", win, fail, options);
+        }
+ 
+        function win(r) {
+            console.log("Code = " + r.responseCode);
+            console.log("Response = " + r.response);
+            console.log("Sent = " + r.bytesSent);
+            alert(r.response);
+        }
+ 
+        function fail(error) {
+            alert("An error has occurred: Code = " + error.code);
+        }
+	
+	</script>
+   </body>
+</html>
