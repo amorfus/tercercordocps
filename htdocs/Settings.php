@@ -2,6 +2,12 @@
 
 class Settings {
 
+	public static $user = "";
+    public static $password = "";
+    public static $host = "";
+    public static $db = "";
+
+
     private static $appPath;
     const debug = false;
    
