@@ -18,8 +18,8 @@ class UserFactory {
     		$check = false;
     	}
     	
-    	if(!$toRet->setNome($request['nome'])){ $vd->setErrorMessage('Nome non valido.'); $check = false;}
-    	if(!$toRet->setCognome($request['cognome'])){ $vd->setErrorMessage('Cognome non valido.'); $check = false;}
+    	if(!$toRet->setNombre($request['nombre'])){ $vd->setErrorMessage('Nombre non valido.'); $check = false;}
+    	if(!$toRet->setApellido($request['apellido'])){ $vd->setErrorMessage('Apellido non valido.'); $check = false;}
     	
     	if(isset($request['username']))
     		if(!$toRet->setUsername($request['username'])){ $vd->setErrorMessage('Username non valido.'); $check = false;}
@@ -27,17 +27,13 @@ class UserFactory {
     	if(isset($request['first-password']))	
     		if(!$toRet->setPassword($request['first-password'])){ $vd->setErrorMessage('Password non valida.'); $check = false;}
     	 
-    	if(isset($request['ruolo']))
-    		if(!$toRet->setRuolo($request['ruolo'])){ $vd->setErrorMessage('Ruolo non valido.'); $check = false;}
+    	if(isset($request['roll']))
+    		if(!$toRet->setRoll($request['roll'])){ $vd->setErrorMessage('Roll non valido.'); $check = false;}
     	else
-    		$toRet->setRuolo(User::Buyer);
+    		$toRet->setRoll(User::User);
     	     
     	if(!$toRet->setEmail($request['email'])){ $vd->setErrorMessage('E-Mail non valida.'); $check = false;}
-    	if(!$toRet->setVia($request['via'])){ $vd->setErrorMessage('Via non valida.'); $check = false;}
-    	if(!$toRet->setNumeroCivico($request['numero_civico'])){ $vd->setErrorMessage('Civico non valido.'); $check = false;}
-    	if(!$toRet->setCitta($request['citta'])){ $vd->setErrorMessage('Citta non valida.'); $check = false;}
-    	if(!$toRet->setProvincia($request['provincia'])){ $vd->setErrorMessage('Provincia non valida.'); $check = false;}
-    	if(!$toRet->setCap($request['cap'])){ $vd->setErrorMessage('CAP non valido.'); $check = false;}
+    	if(!$toRet->setDireccion($request['direccion'])){ $vd->setErrorMessage('Direccion non valido.'); $check = false;}
     	 
     	if($check)
     		return $toRet;
@@ -45,34 +41,29 @@ class UserFactory {
     		return false;
     }
     
-    public static function recoverUserFromRequest($request)
-    {
+    public static function recoverUserFromRequest($request) {
     	$toRet = new User();
     	
-    	$toRet->setNome($request['nome']);
-    	$toRet->setCognome($request['cognome']);
+    	$toRet->setNombre($request['nombre']);
+    	$toRet->setApellido($request['apellido']);
     	
     	if(isset($request['username']))
     		$toRet->setUsername($request['username']);
     	
     	$toRet->setEmail($request['email']);
-    	$toRet->setVia($request['via']);
-    	$toRet->setNumeroCivico($request['numero_civico']);
-    	$toRet->setCitta($request['citta']);
-    	$toRet->setProvincia($request['provincia']);
-    	$toRet->setCap($request['cap']);
+    	$toRet->setCap($request['direccion']);
     	 
     	return $toRet;
     }
     
     public static function storeUser(User $user, ViewDescriptor $vd)
     {
-    	$nome = $user->getNome();
-    	$cognome = $user->getCognome();
+    	$nombre = $user->getNombre();
+    	$apellido = $user->getApellido();
     	$username = $user->getUsername();
     	$password = $user->getPassword();
     	$email = $user->getEmail();
-    	$ruolo = User::Buyer;
+    	$roll = User::Buyer;
     	$via = $user->getVia();
     	$civico = $user->getNumeroCivico();
     	$citta = $user->getCitta();
@@ -100,17 +91,17 @@ class UserFactory {
 	    	$password = md5($password);
 	    
 	    	$qry = 'INSERT INTO User 
-	    				(Nome, Cognome, Username, Password, Email, Ruolo, Via, Civico, Citta, Provincia, Cap) 
+	    				(Nombre, Apellido, Username, Password, Email, Roll, Via, Civico, Citta, Provincia, Cap) 
 	    			VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 	    	
 	    	$stmt->prepare($qry);
 	    	
-	    	$stmt->bind_param('sssssisissi',$nome,
-	    									$cognome,
+	    	$stmt->bind_param('sssssisissi',$nombre,
+	    									$apellido,
 	    									$username,
 	    									$password,
 	    									$email,
-	    									$ruolo,
+	    									$roll,
 	    									$via,
 	    									$civico,
 	    									$citta,
@@ -138,8 +129,8 @@ class UserFactory {
     public static function updateUser(User $user)
     {
     	$id = $user->getId();
-    	$nome = $user->getNome();
-    	$cognome = $user->getCognome();
+    	$nombre = $user->getNombre();
+    	$apellido = $user->getApellido();
     	$email = $user->getEmail();
     	$via = $user->getVia();
     	$civico = $user->getNumeroCivico();
@@ -152,8 +143,8 @@ class UserFactory {
     	$qry = "
     			UPDATE User 
 				SET 
-					Nome = ?,
-    				Cognome = ?,
+					Nombre = ?,
+    				Apellido = ?,
     				Email = ?,
     				Via = ?,
     				Civico = ?,
@@ -166,7 +157,7 @@ class UserFactory {
     	 
     	$stmt->prepare($qry);
     	 
-    	$stmt->bind_param('ssssissii', $nome, $cognome, $email, $via, $civico, $citta, $provincia, $cap, $id);
+    	$stmt->bind_param('ssssissii', $nombre, $apellido, $email, $via, $civico, $citta, $provincia, $cap, $id);
     	 
     	if($stmt->execute())
     		return true;
@@ -187,12 +178,12 @@ class UserFactory {
     	
     	$qry = "SELECT 
     				ID,
-    				Nome,
-    				Cognome,
+    				Nombre,
+    				Apellido,
     				Username,
     				Password,
     				Email,
-    				Ruolo,
+    				Roll,
     				Via,
     				Civico,
     				Citta,
@@ -214,12 +205,12 @@ class UserFactory {
     	if($stmt->num_rows > 0)
     	{	
     		$stmt->bind_result(	
-    				$res_id, $res_nome, 
-    			   	$res_cognome, 
+    				$res_id, $res_nombre, 
+    			   	$res_apellido, 
    					$res_username, 
     				$res_password, 
    					$res_email, 
-    				$res_ruolo, 
+    				$res_roll, 
     				$res_via, 
     				$res_civico, 
     				$res_citta, 
@@ -235,9 +226,9 @@ class UserFactory {
 	    	
 	    		
     		$toRet = new User();
-    		$toRet->setRuolo($res_ruolo);
-    		$toRet->setNome($res_nome);
-    		$toRet->setCognome($res_cognome);
+    		$toRet->setRoll($res_roll);
+    		$toRet->setNombre($res_nombre);
+    		$toRet->setApellido($res_apellido);
     		$toRet->setUsername($res_username);
     		$toRet->setPassword(md5($res_password));
     		$toRet->setVia($res_via);
@@ -253,7 +244,7 @@ class UserFactory {
     			echo " cap:" . $toRet->getCap();
 	    	
 		    
-		    if($toRet->getRuolo() == User::Seller)
+		    if($toRet->getRoll() == User::Seller)
 		    {
 		    	$negozio = NegozioFactory::loadNegozioFromUserID($toRet->getId());
 		    	
@@ -270,19 +261,19 @@ class UserFactory {
 		
     }    
     
-    public static function changeRuolo(User $user, $ruolo)
+    public static function changeRoll(User $user, $roll)
     {
     	$stmt = DB::istance()->stmt_init();
     	
     	$qry = "
     			UPDATE User 
-    			SET Ruolo=? 
+    			SET Roll=? 
     			WHERE ID=?
     	";
     	
     	$stmt->prepare($qry);
     	
-    	$stmt->bind_param('ii', $ruolo, $user->getId());
+    	$stmt->bind_param('ii', $roll, $user->getId());
     	
     	return $stmt->execute();
     }
@@ -296,12 +287,12 @@ class UserFactory {
     	 
     	$qry = "SELECT
     				ID,
-    				Nome,
-    				Cognome,
+    				Nombre,
+    				Apellido,
     				Username,
     				Password,
     				Email,
-    				Ruolo,
+    				Roll,
     				Via,
     				Civico,
     				Citta,
@@ -309,7 +300,7 @@ class UserFactory {
     				Cap,
     				Credito
     			FROM User
-    			WHERE Ruolo != ?
+    			WHERE Roll != ?
     			
     	";
     	
@@ -331,12 +322,12 @@ class UserFactory {
     	if($stmt->num_rows > 0)
     	{
     		$stmt->bind_result(
-    				$res_id, $res_nome,
-    				$res_cognome,
+    				$res_id, $res_nombre,
+    				$res_apellido,
     				$res_username,
     				$res_password,
     				$res_email,
-    				$res_ruolo,
+    				$res_roll,
     				$res_via,
     				$res_civico,
     				$res_citta,
@@ -350,9 +341,9 @@ class UserFactory {
     	
 	    		$toRet = new User();
 	    	
-	    		$toRet->setRuolo($res_ruolo);
-	    		$toRet->setNome($res_nome);
-	    		$toRet->setCognome($res_cognome);
+	    		$toRet->setRoll($res_roll);
+	    		$toRet->setNombre($res_nombre);
+	    		$toRet->setApellido($res_apellido);
 	    		$toRet->setUsername($res_username);
 	    		$toRet->setPassword(md5($res_password));
 	    		$toRet->setVia($res_via);
@@ -364,7 +355,7 @@ class UserFactory {
 	    		$toRet->setEmail($res_email);
 	    		$toRet->addCredito($res_credito);
 	    		
-	    		if($toRet->getRuolo() == User::Seller)
+	    		if($toRet->getRoll() == User::Seller)
 	    		{
 	    			$negozio = NegozioFactory::loadNegozioFromUserID($toRet->getId());
 	    		
@@ -390,18 +381,13 @@ class UserFactory {
     	
     	$qry = "SELECT 
     				ID,
-    				Nome,
-    				Cognome,
+    				Nombre,
+    				Apellido,
     				Username,
     				Password,
     				Email,
-    				Ruolo,
-    				Via,
-    				Civico,
-    				Citta,
-    				Provincia,
-    				Cap,
-    				Credito
+    				Roll,
+    				Direccion
     			FROM User 
     			WHERE ID = ? ";
     	
@@ -417,12 +403,12 @@ class UserFactory {
     	if($stmt->num_rows > 0)
     	{	
     		$stmt->bind_result(	
-    				$res_id, $res_nome, 
-    			   	$res_cognome, 
+    				$res_id, $res_nombre, 
+    			   	$res_apellido, 
    					$res_username, 
     				$res_password, 
    					$res_email, 
-    				$res_ruolo, 
+    				$res_roll, 
     				$res_via, 
     				$res_civico, 
     				$res_citta, 
@@ -435,9 +421,9 @@ class UserFactory {
 	    	
     		$toRet = new User();
     		
-    		$toRet->setRuolo($res_ruolo);
-    		$toRet->setNome($res_nome);
-    		$toRet->setCognome($res_cognome);
+    		$toRet->setRoll($res_roll);
+    		$toRet->setNombre($res_nombre);
+    		$toRet->setApellido($res_apellido);
     		$toRet->setUsername($res_username);
     		$toRet->setPassword(md5($res_password));
     		$toRet->setVia($res_via);
@@ -450,7 +436,7 @@ class UserFactory {
     		$toRet->addCredito($res_credito);
 	    	
 		    
-		    if($toRet->getRuolo() == User::Seller)
+		    if($toRet->getRoll() == User::Seller)
 		    {
 		    	$negozio = NegozioFactory::loadNegozioFromUserID($toRet->getId());
 		    	
@@ -465,101 +451,4 @@ class UserFactory {
     	
     	return false;
     }
-    
-    public static function addCreditFromUser($id, $credito, $vd)
-    {
-    	if (!filter_var($credito, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/^\d+(,\d{1,2})?$/'))))
-    	{
-    		$vd->setErrorMessage('Importo non valido.');
-    		return false;
-    	}
-    		
-    	
-    	$stmt = DB::istance()->stmt_init();
-    	
-    	$qry = "
-    			UPDATE User
-    			SET Credito = Credito + ?
-    			WHERE ID = ?
-    	";
-    	
-    	$stmt->prepare($qry);
-    	
-    	$stmt->bind_param('ii', $credito, $id);
-    	
-    	if(!$stmt->execute())
-    	{
-    		$vd->setErrorMessage('Errore durante il salvataggio dei dati, segnalare il problema ad un amministratore.');
-    		return false;
-    	}
-    	
-    	return true;
-    }
-    
-    public static function followNegoziofromId($id_negozio, $id_user)
-    {
-    	$stmt = DB::istance()->stmt_init();
-    	
-    	$qry = "
-    			SELECT *
-    			FROM Follow
-    			WHERE 
-    				User_ID = ? AND
-    				Negozio_ID = ?
-    			
-    	";
-    	
-    	$stmt->prepare($qry);
-    	
-    	$stmt->bind_param('ii', $id_user, $id_negozio);
-    	
-    	if(!$stmt->execute())
-    		return false;
-    	
-    	$stmt->store_result();
-    	
-    	if($stmt->num_rows == 0)
-    	{
-    		$qry = "
-    				INSERT INTO Follow
-    					(User_ID, Negozio_ID)
-    				VALUE
-    					(?, ?)
-    		";
-    		
-    		$stmt->prepare($qry);
-    		 
-    		$stmt->bind_param('ii', $id_user, $id_negozio);
-    		 
-    		if(!$stmt->execute())
-    			return false;
-    	}
-    	
-    	return true;
-    }
-    
-    public static function unfollowNegoziofromId($id_negozio, $id_user)
-    {
-    	$stmt = DB::istance()->stmt_init();
-    	 
-    	$qry = "
-    			DELETE 
-    			FROM Follow
-    			WHERE
-    				User_ID = ? AND
-    				Negozio_ID = ?
-    
-    	";
-    	 
-    	$stmt->prepare($qry);
-    	 
-    	$stmt->bind_param('ii', $id_user, $id_negozio);
-    	 
-    	if(!$stmt->execute())
-    		return false;
-    	 
-    	return true;
-    }
-}
-
 ?>
