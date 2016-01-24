@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrum %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="breadcrum">
+				<li>
+					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
+				</li>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block main %}
+
+	<div class="row">
+		<div class="col-md-4 pull-left">
+			<button type="button" class="btn btn-primary">
+				<a href="{{ path('user_registration') }}">{{ 'user.new'|trans }}</a>
+			</button>
+		</div>
+	</div>
+
+	{% if users %}
+		<div class="well-table">
+			<ul class="well well-small">
+				<li class="col-md-2">
+					<strong>{{ 'user.name'|trans }}</strong>
+				</li>
+				<li class="col-md-2">
+					<strong>{{ 'user.surname1'|trans }}</strong>
+				</li>
+				<li class="col-md-3">
+					<strong>{{ 'user.surname2'|trans }}</strong>
+				</li>
+				<li class="col-md-3">
+					<strong>{{ 'user.email'|trans }}</strong>
+				</li>
+				<li class="col-md-2">
+				</li>
+			</ul>
+		</div>
+		<div class="well-table-content">
+		{% for user in users %}
+			<ul class="well clearfix">
+				<li class="col-md-2">
+					{{ user.name }}
+				</li>
+				<li class="col-md-2">
+					{{ user.surname1 }}
+				</li>
+				<li class="col-md-3">
+					{{ user.surname2 }}
+				</li>
+				<li class="col-md-3">
+					{{ user.email }}
+				</li>
+				<li class="col-md-2">
+					<a class="btn btn-primary fa fa-trash" href="{{ path('del_user', {'user_id': user.id}) }}"></a>
+				</li>
+			</ul>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

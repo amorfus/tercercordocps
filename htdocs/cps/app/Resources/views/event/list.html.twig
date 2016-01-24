@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrum %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="breadcrum">
+				<li>
+					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
+				</li>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block main %}
+
+	<div class="row">
+		<div class="col-md-4 pull-left">
+			<button type="button" class="btn btn-primary">
+				<a href="{{ path('new_event') }}">{{ 'event.new'|trans }}</a>
+			</button>
+		</div>
+	</div>
+
+	{% if events %}
+		<div class="well-table">
+			<ul class="well well-small">
+				<li class="col-md-2">
+					<strong>{{ 'event.date'|trans }}</strong>
+				</li>
+				<li class="col-md-2">
+					<strong>{{ 'event.type'|trans }}</strong>
+				</li>
+				<li class="col-md-7">
+					<strong>{{ 'event.description'|trans }}</strong>
+				</li>
+				<li class="col-md-1">
+				</li>
+			</ul>
+		</div>
+		<div class="well-table-content">
+		{% for event in events %}
+			<ul class="well clearfix">
+				<li class="col-md-2">
+					{{ event.date|date('Y-m-d') }}
+				</li>
+				<li class="col-md-2">
+					{{ event.type }}
+				</li>
+				<li class="col-md-7">
+					{{ event.description }}
+				</li>
+				<li class="col-md-1">
+					<a class="btn btn-primary fa fa-trash" href="{{ path('del_event', {'event_id': event.id}) }}"></a>
+				</li>
+			</ul>
+		{% endfor %}
+	{% endif %}
+{% endblock %}
