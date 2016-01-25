@@ -38,7 +38,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                       <ul class="nav navbar-nav">
                         <li  {% if 'attendance' in path(app.request.attributes.get('_route')) %} class="active" {% endif %}>
-                            <a href="{{ path('homepage') }}">
+                            <a href="{{ path('list_attendance') }}">
                                 {{ 'menu.attendance'|trans }}
                             </a>
                         </li>

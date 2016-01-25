@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrum %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="breadcrum">
+				<li>
+					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
+				</li>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block main %}
+
+	<div class="row">
+		<div class="col-md-4 pull-left">
+			<button type="button" class="btn btn-primary">
+				<a href="{{ path('new_event') }}">{{ 'event.new'|trans }}</a>
+			</button>
+		</div>
+	</div>
+	{% for month in to_ret %}
+		{{ month }}
+	{% endfor %}
+	{% if to_list %}
+		{% for key, list in to_list %}
+			<div class="container">
+				<div class="well-table">
+					<ul class="well well-small">
+						<li class="col-sm-7">
+							{{ key }}
+						</li>	
+					</ul>
+				</div>
+				{% for event in list %}
+					<div class="well-table-content">
+						<ul class="well clearfix">
+							<li class="col-xs-1">
+								{{ event.date|date('d') }}
+							</li>
+							<li class="col-xs-1">
+								{{ event.type }}
+							</li>
+							<li class="col-xs-10">
+								{{ event.description }}
+							</li>
+						</ul>
+					</div>
+				{% endfor %}		
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}
