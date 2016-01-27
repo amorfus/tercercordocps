@@ -81,6 +81,40 @@ class EventController extends Controller
     }
 
     /**
+     * @Route("/event/edit/{id}", name="edit_event")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function editAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Event')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Event entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('list_event');
+        }
+
+        return $this->render(
+            'event/edit.html.twig',
+            array(
+                'entity'    => $entity,
+                'form'      => $editForm->createView()
+            )
+        );
+    }
+
+
+
+    /**
      * @Route("/event/delete/{event_id}", name="del_event")
      * @Security("has_role('ROLE_USER')")
      */
