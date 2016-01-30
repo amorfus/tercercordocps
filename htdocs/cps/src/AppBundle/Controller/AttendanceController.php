@@ -27,7 +27,7 @@ use Symfony\Component\Intl\Intl;
 class AttendanceController extends Controller
 {
     /**
-     * @Route("/attendance", name="list_attendance")
+     * @Route("/attendance/list", name="list_attendance")
      * @Security("has_role('ROLE_USER')")
      */
     public function listAction()
@@ -91,11 +91,38 @@ class AttendanceController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
 
         return $this->render(
-        	'attendance/attendance.html.twig',
+        	'attendance/list_attendance.html.twig',
         	array(
                 'to_list' => $to_list,
                 'to_ret'  => $to_ret,
                 'user'    => $user
+            )
+        );
+    }
+
+    /**
+     * @Route("/attendance/show/{event_id}", defaults={"event_id" = "none"}, name="show_attendance")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function showAction($event_id)
+    {
+        $event_list = $this->getDoctrine()
+        ->getRepository('AppBundle:Event')
+           ->findBy(array(), array('date' => 'ASC'));    
+
+        if ($event_id != 'none'){
+            $event = $this->getDoctrine()
+            ->getRepository('AppBundle:Event')
+               ->findBy(array( 'id' => $event_id ));
+        } else {
+            $event = $event_list[0];
+        }
+
+        return $this->render(
+            'attendance/show_attendance.html.twig',
+            array(
+                'event' => $event,
+                'event_list'  => $event_list
             )
         );
     }
