@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\redirectToRoute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Intl\Intl;
 
 class AttendanceController extends Controller
@@ -33,7 +34,7 @@ class AttendanceController extends Controller
     {
     	$events = $this->getDoctrine()
 	        ->getRepository('AppBundle:Event')
-	           ->findBy(array(), array('date' => 'ASC'));;
+	           ->findBy(array(), array('date' => 'ASC'));
 
 	    if (!$events) {
 	        $this->addFlash(
@@ -87,11 +88,56 @@ class AttendanceController extends Controller
                 }
             }
 
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+
         return $this->render(
         	'attendance/attendance.html.twig',
-        	array('to_list' => $to_list,
-                    'to_ret' => $to_ret)
+        	array(
+                'to_list' => $to_list,
+                'to_ret'  => $to_ret,
+                'user'    => $user
+            )
         );
+    }
+
+    /**
+     * @Route("/attendance/{action}/{user_id}/{event_id}", name="add_attendance")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function changeAction($action, $user_id, $event_id, $action)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+               ->findBy(array('id' => $user_id));
+
+        $event = $this->getDoctrine()
+            ->getRepository('AppBundle:Event')
+               ->findBy(array('id' => $event_id));
+
+        if(isset($user[0]) && isset($event[0])){
+            switch ($action) {
+                case 'add':
+                    $user[0]->addEvent($event[0]);
+                    break;
+                case 'remove':
+                    $user[0]->removeEvent($event[0]);
+                    break;
+                default:
+                    
+                    break;
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $to_ret = array('result' => 'ok');
+        }else{
+            $to_ret = array('result' => 'error');
+        }
+
+        $response = new Response(json_encode($to_ret));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }
 

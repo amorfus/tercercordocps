@@ -170,3 +170,9 @@ body {
 .breadnolink {
 	color: #337ab7;
 }
+
+.checked {
+	background-color: #18bc9c;
+	border-color: #18bc9c;
+	color: #fff
+}

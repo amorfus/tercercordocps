@@ -16,42 +16,34 @@
 
 {% block main %}
 
-	<div class="row">
-		<div class="col-md-4 pull-left">
-			<button type="button" class="btn btn-primary">
-				<a href="{{ path('new_event') }}">{{ 'event.new'|trans }}</a>
-			</button>
-		</div>
-	</div>
-	{% for month in to_ret %}
-		{{ month }}
-	{% endfor %}
+	<input id="user_id" type="hidden" value="{{ user.id }}">
 	{% if to_list %}
-		{% for key, list in to_list %}
-			<div class="container">
-				<div class="well-table">
-					<ul class="well well-small">
-						<li class="col-sm-7">
-							{{ key }}
-						</li>	
-					</ul>
-				</div>
-				{% for event in list %}
-					<div class="well-table-content">
-						<ul class="well clearfix">
-							<li class="col-xs-1">
-								{{ event.date|date('d') }}
-							</li>
-							<li class="col-xs-1">
-								{{ event.type }}
-							</li>
-							<li class="col-xs-10">
-								{{ event.description }}
-							</li>
-						</ul>
+		<div class="row">
+			<div id="accordion">
+				{% for key, list in to_list %}
+					<h3 class="panel-title">{{ key }}</h3>
+					<div>
+						<div class="col-md-12 col-sm-12">							
+							{% for event in list %}
+								<div class="well well-attendance {% if event.checkUser(user) %} checked {% endif %}">
+									<input class="event_id" type="hidden" value="{{ event.id }}">
+									<div class="row">
+										<div class="col-md-4 col-sm-4 col-xs-4">
+											{{ event.date|date('d') }}
+										</div>
+										<div class="col-md-4 col-sm-4 col-xs-4">
+											{{ event.type }}
+										</div>
+										<div class="col-md-4 col-sm-4 col-xs-4">
+											{{ event.description }}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
 					</div>
-				{% endfor %}		
+				{% endfor %}
 			</div>
-		{% endfor %}
+		</div>
 	{% endif %}
 {% endblock %}
