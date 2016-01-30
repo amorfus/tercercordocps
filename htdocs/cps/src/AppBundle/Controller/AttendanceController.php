@@ -27,7 +27,7 @@ use Symfony\Component\Intl\Intl;
 class AttendanceController extends Controller
 {
     /**
-     * @Route("/attendance", name="list_attendance")
+     * @Route("/attendance/list", name="list_attendance")
      * @Security("has_role('ROLE_USER')")
      */
     public function listAction()
@@ -91,11 +91,46 @@ class AttendanceController extends Controller
             $user = $this->get('security.token_storage')->getToken()->getUser();
 
         return $this->render(
-        	'attendance/attendance.html.twig',
+        	'attendance/list_attendance.html.twig',
         	array(
                 'to_list' => $to_list,
                 'to_ret'  => $to_ret,
                 'user'    => $user
+            )
+        );
+    }
+
+    /**
+     * @Route("/attendance/show", name="show_attendance")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function showAction(Request $request)
+    {
+        $users = array();
+
+        $event_list_groupby = $request->request->get('event_list_groupby');
+
+        $event_list = $this->getDoctrine()
+            ->getRepository('AppBundle:Event')
+                ->findBy(array(), array('date' => 'ASC'));    
+
+        if ($request->request->get('event_id')){
+            $event_id = $request->request->get('event_id');
+            $event = $this->getDoctrine()
+                ->getRepository('AppBundle:Event')
+                    ->findBy(array( 'id' => $event_id ))[0];
+            $users = $event->getUsersByPosition($event_list_groupby);
+        } else {
+            $event = $event_list[0];
+        }
+
+        return $this->render(
+            'attendance/show_attendance.html.twig',
+            array(
+                'event_selected'        => $event,
+                'event_list'            => $event_list,
+                'event_list_groupby'    => $request->request->get('event_list_groupby'),
+                'users'                 => $users
             )
         );
     }

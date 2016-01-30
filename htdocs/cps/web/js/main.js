@@ -7,6 +7,10 @@ $(document).ready(function() {
         heightStyle: "content"
     });
 
+    $( "#sel1, #sel2" ).change(function() {
+		$( '#select_event' ).submit();
+	});
+
 	$('.well-attendance').on('click', function(){
 
 		div = $(this);
@@ -21,7 +25,7 @@ $(document).ready(function() {
 			action = "add";
 		}
 
-		$.ajax( "attendance/"+action+"/"+user_id+'/'+event_id )
+		$.ajax( action+"/"+user_id+'/'+event_id )
 			.done(function(data) {
 				if (data['result'] == 'ok'){
 					if (action == "remove"){

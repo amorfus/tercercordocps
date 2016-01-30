@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrum %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="breadcrum">
+				<li>
+					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
+				</li>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block main %}
+	<div class="row">
+		<form id="select_event" action="" method="POST">
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="sel1">{{ 'attendance.event_list'|trans }}</label>
+					<select class="form-control" id="sel1" name="event_id">
+					{% for event in event_list %}
+						<option value="{{ event.id }}" {% if event_selected.id == event.id %} selected {% endif %}>{{ event.date|date('d/m/Y') }}</option>
+					{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="form-group">
+					<label for="sel2">{{ 'attendance.event_list_groupby'|trans }}</label>
+					<select class="form-control" id="sel2" name="event_list_groupby">
+						<option value="Tots" {% if event_list_groupby == 'Tots' %} selected {% endif %}>
+							Tots
+						</option>
+						<option value="Pinya" {% if event_list_groupby == 'Pinya' %} selected {% endif %}>
+							Pinya
+						</option>
+						<option value="Canalla" {% if event_list_groupby == 'Canalla' %} selected {% endif %}>
+							Canalla
+						</option>
+						<option value="Tronc" {% if event_list_groupby == 'Tronc' %} selected {% endif %}>
+							Tronc
+						</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	{% if event_selected.users|length > 0 %}
+		<div class="panel panel-default">
+			<div class="panel-body">
+				{% for user in users %}
+					{{ user.name }} {{ user.principalPosition }} </br>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
