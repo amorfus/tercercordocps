@@ -89,6 +89,11 @@ class User implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $principal_position;
+
 
     public function getId()
     {
@@ -376,5 +381,28 @@ class User implements UserInterface
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Set principal_position
+     *
+     * @param string $principalPosition
+     * @return User
+     */
+    public function setPrincipalPosition($principalPosition)
+    {
+        $this->principal_position = $principalPosition;
+
+        return $this;
+    }
+
+    /**
+     * Get principal_position
+     *
+     * @return string 
+     */
+    public function getPrincipalPosition()
+    {
+        return $this->principal_position;
     }
 }

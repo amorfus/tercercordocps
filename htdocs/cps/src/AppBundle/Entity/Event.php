@@ -175,4 +175,19 @@ class Event
 
         return 0;
     }
+
+    public function getUsersByPosition($position)
+    {
+        if($position == 'Tots') return $this->users;
+
+        $to_ret = array();
+
+        foreach ($this->users as $user) {
+            if ($user->getPrincipalPosition() == $position){
+                $to_ret[] = $user;
+            }
+        }
+
+        return $to_ret;
+    }
 }

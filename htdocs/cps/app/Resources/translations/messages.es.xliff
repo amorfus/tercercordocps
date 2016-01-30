@@ -297,6 +297,16 @@
                 <source>user.email</source>
                 <target>e-Mail</target>
             </trans-unit>
+
+            <trans-unit id="attendance.event_list">
+                <source>attendance.event_list</source>
+                <target>Fecha</target>
+            </trans-unit>
+            <trans-unit id="attendance.event_list_groupby">
+                <source>attendance.event_list_groupby</source>
+                <target>Posicion</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>
