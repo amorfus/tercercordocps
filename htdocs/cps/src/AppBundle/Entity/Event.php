@@ -4,6 +4,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use AppBundle\Entity\User;
 
 /**
  * @ORM\Entity
@@ -34,10 +37,11 @@ class Event
      */
     protected $type;
 
-    public function __construct()
-    {
-    
-    }
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="events")
+     */
+    protected $users;
+
 
     /**
      * Get id
@@ -119,5 +123,56 @@ class Event
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \AppBundle\Entity\User $users
+     */
+    public function removeUser(\AppBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add users
+     *
+     * @param \AppBundle\Entity\User $users
+     * @return Event
+     */
+    public function addUser(\AppBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    public function checkUser(\AppBundle\Entity\User $check_user)
+    {
+        foreach ($this->users as $user) {
+            if ($check_user == $user){
+                return 1;
+            }
+        }
+
+        return 0;
     }
 }

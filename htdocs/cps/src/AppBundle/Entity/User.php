@@ -4,6 +4,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use AppBundle\Entity\Event;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,52 +36,58 @@ class User implements UserInterface
     protected $surname1;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $surname2;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $mobile;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $creationdate;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */    
     protected $state;
 
     /**
      * @ORM\Column(type="string", unique=true)
      */
-    private $username;
+    protected $username;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $password;
+    protected $password;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Length(max = 4096)
      */
-    private $plainPassword;
+    protected $plainPassword;
 
     /**
      * @ORM\Column(type="json_array")
      */
-    private $roles = array();
+    protected $roles = array();
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Email()
      */
-    private $email;
+    protected $email;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Event", inversedBy="users")
+     * @ORM\JoinTable(name="users_events")
+     */
+    private $events;
 
 
     public function getId()
@@ -327,5 +336,45 @@ class User implements UserInterface
     {
         // if you had a plainPassword property, you'd nullify it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param \AppBundle\Entity\Event $events
+     */
+    public function removeEvent(\AppBundle\Entity\Event $events)
+    {
+        $this->events->removeElement($events);
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add events
+     *
+     * @param \AppBundle\Entity\User $events
+     * @return User
+     */
+    public function addEvent(\AppBundle\Entity\Event $events)
+    {
+        $this->events[] = $events;
+
+        return $this;
+    }
+
+    /**
+     * Get events
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEvents()
+    {
+        return $this->events;
     }
 }
