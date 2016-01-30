@@ -15,13 +15,15 @@
 {% endblock %}
 
 {% block main %}
-
-	<div class="form-group">
-		<label for="sel1">{{ 'attendance.event_list'|trans }}</label>
-		<select class="form-control" id="sel1">
-		{% for event in event_list %}
-			<option value="{{ event.id }}">{{ event.date|date('d/m/Y') }}</option>
-		{% endfor %}
-		</select>
-	</div>
+	{{ event_selected.id }}
+	<form id="select_event" action="" method="POST">
+		<div class="form-group">
+			<label for="sel1">{{ 'attendance.event_list'|trans }}</label>
+			<select class="form-control" id="sel1" name="event_id">
+			{% for event in event_list %}
+				<option value="{{ event.id }}" {% if event_selected.id == event.id %} selected {% endif %}>{{ event.date|date('d/m/Y') }}</option>
+			{% endfor %}
+			</select>
+		</div>
+	</form>
 {% endblock %}

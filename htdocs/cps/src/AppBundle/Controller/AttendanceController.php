@@ -101,19 +101,20 @@ class AttendanceController extends Controller
     }
 
     /**
-     * @Route("/attendance/show/{event_id}", defaults={"event_id" = "none"}, name="show_attendance")
+     * @Route("/attendance/show", name="show_attendance")
      * @Security("has_role('ROLE_USER')")
      */
-    public function showAction($event_id)
+    public function showAction(Request $request)
     {
         $event_list = $this->getDoctrine()
         ->getRepository('AppBundle:Event')
            ->findBy(array(), array('date' => 'ASC'));    
 
-        if ($event_id != 'none'){
+        if ($request->request->get('event_id')){
+            $event_id = $request->request->get('event_id');
             $event = $this->getDoctrine()
             ->getRepository('AppBundle:Event')
-               ->findBy(array( 'id' => $event_id ));
+               ->findBy(array( 'id' => $event_id ))[0];
         } else {
             $event = $event_list[0];
         }
@@ -121,7 +122,7 @@ class AttendanceController extends Controller
         return $this->render(
             'attendance/show_attendance.html.twig',
             array(
-                'event' => $event,
+                'event_selected' => $event,
                 'event_list'  => $event_list
             )
         );

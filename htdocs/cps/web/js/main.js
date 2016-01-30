@@ -7,6 +7,10 @@ $(document).ready(function() {
         heightStyle: "content"
     });
 
+    $( "#sel1" ).change(function() {
+		$( '#select_event' ).submit();
+	});
+
 	$('.well-attendance').on('click', function(){
 
 		div = $(this);
