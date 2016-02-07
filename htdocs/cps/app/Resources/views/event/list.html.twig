@@ -3,13 +3,10 @@
 {% block breadcrum %}
 
 	<div class="row">
-		<div class="col-md-12">
-			<div class="breadcrum">
-				<li>
-					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
-				</li>
-			</div>
-		</div>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="glyphicon glyphicon-home"></i></a></li>
+			<li class="active">{{ 'menu.event.list'|trans }}</li>
+		</ol>
 	</div>
 
 {% endblock %}
@@ -18,44 +15,45 @@
 
 	<div class="row">
 		<div class="col-md-4 pull-left">
-			<button type="button" class="btn btn-primary">
-				<a href="{{ path('new_event') }}">{{ 'event.new'|trans }}</a>
-			</button>
+			<a role="button" class="btn btn-primary" href="{{ path('new_event') }}">{{ 'event.new'|trans }}</a>
 		</div>
 	</div>
 
 	{% if events %}
-		<div class="well-table">
-			<ul class="well well-small">
-				<li class="col-md-2">
-					<strong>{{ 'event.date'|trans }}</strong>
-				</li>
-				<li class="col-md-2">
-					<strong>{{ 'event.type'|trans }}</strong>
-				</li>
-				<li class="col-md-7">
-					<strong>{{ 'event.description'|trans }}</strong>
-				</li>
-				<li class="col-md-1">
-				</li>
-			</ul>
-		</div>
-		<div class="well-table-content">
-		{% for event in events %}
-			<ul class="well clearfix">
-				<li class="col-md-2">
-					{{ event.date|date('Y-m-d') }}
-				</li>
-				<li class="col-md-2">
-					{{ event.type }}
-				</li>
-				<li class="col-md-7">
-					{{ event.description }}
-				</li>
-				<li class="col-md-1">
-					<a class="btn btn-primary fa fa-trash" href="{{ path('del_event', {'event_id': event.id}) }}"></a>
-				</li>
-			</ul>
-		{% endfor %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						{{ 'event.date'|trans }}
+					</th>
+					<th>
+						{{ 'event.type'|trans }}
+					</th>
+					<th>
+						{{ 'event.description'|trans }}
+					</th>
+					<th>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for event in events %}
+					<tr>
+						<td>
+							{{ event.date|date('d-m-Y') }}
+						</td>
+						<td>
+							{{ event.type }}
+						</td>
+						<td>
+							{{ event.description }}
+						</td>
+						<td>
+							<a class="btn btn-primary glyphicon glyphicon-trash" href="{{ path('del_event', {'event_id': event.id}) }}"></a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	{% endif %}
 {% endblock %}

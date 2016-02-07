@@ -122,6 +122,7 @@ class AttendanceController extends Controller
             $users = $event->getUsersByPosition($event_list_groupby);
         } else {
             $event = $event_list[0];
+            $users = $event->getUsersByPosition('Tots');
         }
 
         return $this->render(

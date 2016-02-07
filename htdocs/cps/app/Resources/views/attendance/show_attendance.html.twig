@@ -3,15 +3,12 @@
 {% block breadcrum %}
 
 	<div class="row">
-		<div class="col-md-12">
-			<div class="breadcrum">
-				<li>
-					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
-				</li>
-			</div>
-		</div>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="glyphicon glyphicon-home"></i></a></li>
+			<li><a href="#">{{ 'menu.attendance'|trans }}</a></li>
+			<li class="active">{{ 'manu.attendance.show'|trans }}</li>
+		</ol>
 	</div>
-
 {% endblock %}
 
 {% block main %}
@@ -21,9 +18,9 @@
 				<div class="form-group">
 					<label for="sel1">{{ 'attendance.event_list'|trans }}</label>
 					<select class="form-control" id="sel1" name="event_id">
-					{% for event in event_list %}
-						<option value="{{ event.id }}" {% if event_selected.id == event.id %} selected {% endif %}>{{ event.date|date('d/m/Y') }}</option>
-					{% endfor %}
+						{% for event in event_list %}
+							<option value="{{ event.id }}" {% if event_selected.id == event.id %} selected {% endif %}>{{ event.date|date('d/m/Y') }}</option>
+						{% endfor %}
 					</select>
 				</div>
 			</div>
@@ -48,13 +45,30 @@
 			</div>
 		</form>
 	</div>
-	{% if event_selected.users|length > 0 %}
-		<div class="panel panel-default">
-			<div class="panel-body">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>
+					{{ 'user.name'|trans }}
+				</th>
+				<th>
+					{{ 'user.position'|trans }}
+				</th>
+			</tr>
+		</thead>
+		{% if users %}
+			<tbody>
 				{% for user in users %}
-					{{ user.name }} {{ user.principalPosition }} </br>
+					<tr>
+						<td>
+							{{ user.name }}
+						</td>
+						<td>
+							{{ user.principalPosition }}
+						</td>
+					</tr>
 				{% endfor %}
-			</div>
-		</div>
-	{% endif %}
+			</tbody>
+		{% endif %}
+	</table>		
 {% endblock %}

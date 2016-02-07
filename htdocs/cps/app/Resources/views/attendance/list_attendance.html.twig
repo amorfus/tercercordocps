@@ -3,47 +3,55 @@
 {% block breadcrum %}
 
 	<div class="row">
-		<div class="col-md-12">
-			<div class="breadcrum">
-				<li>
-					<a href="{ path('home') }"><span class="fa fa-home"></span></a>
-				</li>
-			</div>
-		</div>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="glyphicon glyphicon-home"></i></a></li>
+			<li><a href="#">{{ 'menu.attendance'|trans }}</a></li>
+			<li class="active">{{ 'menu.attendance.list'|trans }}</li>
+		</ol>
 	</div>
 
 {% endblock %}
 
 {% block main %}
-
+	
 	<input id="user_id" type="hidden" value="{{ user.id }}">
 	{% if to_list %}
 		<div class="row">
-			<div id="accordion">
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 				{% for key, list in to_list %}
-					<h3 class="panel-title">{{ key }}</h3>
-					<div>
-						<div class="col-md-12 col-sm-12">							
-							{% for event in list %}
-								<div class="well well-attendance {% if event.checkUser(user) %} checked {% endif %}">
-									<input class="event_id" type="hidden" value="{{ event.id }}">
-									<div class="row">
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											{{ event.date|date('d') }}
-										</div>
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											{{ event.type }}
-										</div>
-										<div class="col-md-4 col-sm-4 col-xs-4">
-											{{ event.description }}
-										</div>
-									</div>
+	  				<div class="panel panel-default">
+	    				<div class="panel-heading" role="tab" id="heading{{ key }}">
+	    					<botton class="btn btn-block" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ key }}" aria-expanded="true" aria-controls="collapse{{ key }}">
+								<h4 class="panel-title text-center">
+									{{ key }}
+								</h4>
+							</botton>
+	    				</div>
+	    				<div id="collapse{{ key }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ key }}">
+	      					<div class="panel-body">
+	        					<div class="col-md-12 col-sm-12">
+									{% for event in list %}
+										<button class="btn btn-block well-attendance {% if event.checkUser(user) %} btn-success {% endif %}">
+											<input class="event_id" type="hidden" value="{{ event.id }}">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-4">
+													{{ event.date|date('d-m-Y') }}
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4">
+													{{ event.type }}
+												</div>
+												<div class="col-md-4 col-sm-4 col-xs-4">
+													{{ event.description }}
+												</div>
+											</div>
+										</button>
+									{% endfor %}
 								</div>
-							{% endfor %}
+	      					</div>
 						</div>
-					</div>
-				{% endfor %}
-			</div>
+	  				</div>
+	  			{% endfor %}
+  			</div>
 		</div>
 	{% endif %}
 {% endblock %}

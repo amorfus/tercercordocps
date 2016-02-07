@@ -202,12 +202,20 @@
                 <source>menu.attendance</source>
                 <target>Asistencia</target>
             </trans-unit>
-            <trans-unit id="menu.listevent">
-                <source>menu.listevent</source>
+            <trans-unit id="menu.attendance.list">
+                <source>menu.attendance.list</source>
+                <target>Mi asistencia</target>
+            </trans-unit>
+            <trans-unit id="manu.attendance.show">
+                <source>manu.attendance.show</source>
+                <target>Listado asistencia</target>
+            </trans-unit>
+            <trans-unit id="menu.event.list">
+                <source>menu.event.list</source>
                 <target>Eventos</target>
             </trans-unit>
-            <trans-unit id="menu.listuser">
-                <source>menu.listuser</source>
+            <trans-unit id="menu.user.list">
+                <source>menu.user.list</source>
                 <target>Usuarios</target>
             </trans-unit>
 
@@ -296,6 +304,10 @@
             <trans-unit id="user.email">
                 <source>user.email</source>
                 <target>e-Mail</target>
+            </trans-unit>
+            <trans-unit id="user.position">
+                <source>user.position</source>
+                <target>Posicion</target>
             </trans-unit>
 
             <trans-unit id="attendance.event_list">

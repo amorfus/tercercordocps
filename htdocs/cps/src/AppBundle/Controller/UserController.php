@@ -96,6 +96,33 @@ class UserController extends Controller
 
         return $this->redirectToRoute('list_user');
     }
+
+    /**
+     * @Route("/user/change_position/{user_id}/{position}", name="change_position")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function changeRoleAction($user_id, $position)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+               ->findBy(array('id' => $user_id))[0];
+
+        if(isset($user)){
+            
+            $user->setPrincipalPosition($position);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $to_ret = array('result' => 'ok');
+        }else{
+            $to_ret = array('result' => 'error');
+        }
+
+        $response = new Response(json_encode($to_ret));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }
 
 ?>
